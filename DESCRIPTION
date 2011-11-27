@@ -1,0 +1,10 @@
+Package: procona
+Type: Package
+Title:Peptide co-expression network construction.
+Version: 1.0
+Date: 2011-08-10
+Author: David L Gibbs
+Maintainer: David Gibbs <gibbsd@ohsu.edu>
+Description: Peptide co-expression network construction, analysis, and visualization.
+License: GPLv3
+LazyLoad: yes

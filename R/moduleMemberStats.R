@@ -1,0 +1,88 @@
+
+
+
+modulePhenotypeCorrelations <- function
+### Computes the relation between the modules and
+### the phenotypes.
+
+(pnet,      ##<< The peptide net object
+ pepdat,    ##<< The peptide data
+ phenotypes ##<< The matrix of traits
+ ) {
+
+  # Code borrowed/repurposed from WGCNA tutorials
+  
+                                        # The following setting is important, do not omit.
+  options(stringsAsFactors = FALSE);
+  
+                                        # Define numbers of genes and samples
+  nPeptides = ncol(pepdat);
+  nSamples = nrow(pepdat);
+                                        # Recalculate MEs with color labels
+  MEs0 = pnet@mergedMEs
+  MEs = orderMEs(MEs0)
+  moduleTraitCor = cor(MEs, phenotypes, use = "p");
+  moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples);
+  pvalueNames <- sapply(colnames(moduleTraitCor), function(x){paste(x,".pvalue",sep="")}) 
+  colnames(moduleTraitPvalue) <- pvalueNames
+  
+  moduleCors <- data.frame(moduleTraitCor,
+                           moduleTraitPvalue)
+                             
+  return(moduleCors)
+### returns a list of module member stats.
+}
+
+
+
+
+moduleMemberCorrelations <- function
+### Computes the relation between the modules and
+### the phenotypes.
+
+(pnet,      ##<< The peptide net object
+ pepdat,    ##<< The peptide data
+ phenotypes ##<< The matrix of traits
+ ) {
+
+  # Code borrowed/repurposed from WGCNA tutorials
+  
+                                        # The following setting is important, do not omit.
+  options(stringsAsFactors = FALSE);
+  
+                                        # Define numbers of genes and samples
+  nPeptides = ncol(pepdat);
+  nSamples = nrow(pepdat);
+                                        # Recalculate MEs with color labels
+  MEs0 = pnet@mergedMEs
+  MEs = orderMEs(MEs0)
+  
+  modNames = substring(names(MEs), 3)
+
+  peptideModuleMembership = as.data.frame(cor(pepdat, MEs, use = "p"));
+
+  MMPvalue = as.data.frame(corPvalueStudent(
+    as.matrix(peptideModuleMembership), nSamples));
+
+  names(peptideModuleMembership) = paste("MM", modNames, sep="");
+  names(MMPvalue) = paste("p.MM", modNames, sep="");
+
+  peptideTraitSignificance = as.data.frame(cor(pepdat, phenotypes, use = "p"));
+
+  PSPvalue = as.data.frame(corPvalueStudent(
+    as.matrix(peptideTraitSignificance), nSamples));
+
+  names(peptideTraitSignificance) = paste("PS.", names(phenotypes), sep="");
+
+  names(PSPvalue) = paste("p.PS.", names(phenotypes), sep="");
+  
+  memberCors <- data.frame(Peptide=pnet@peptides,
+                           Module=pnet@mergedColors,
+                           peptideModuleMembership,
+                           MMPvalue,
+                           peptideTraitSignificance,
+                           PSPvalue)
+  return(memberCors)
+### returns a data frame of peptide correlation stats.
+}
+
