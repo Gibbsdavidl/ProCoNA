@@ -74,6 +74,7 @@ newRobustProconaObj <- function
  pepdat,                  ##<< This variable is the data set with rows as samples and cols as peptides
  pow=NULL,                ##<< The scaling power, NULL if unknown
  signed="unsigned",       ##<< Whether the sign is considered in constructing adjacency and TOM
+ adjmat=NULL,             ##<< if adjacency matrix was precomputed.
  scaleFreeThreshold=0.8,  ##<< The threshold for fitting to scale-free topology.. will use closest power.
  deepSplit = 2,           ##<< Course grain control of module size
  minModuleSize=30,        ##<< The minimum module size allowed
@@ -97,8 +98,12 @@ newRobustProconaObj <- function
   }
   cat("Using power: ", pnet@power, "\n")
   pnet@peptides=colnames(pepdat)
-  print("Computing adjacency")
-  pnet@adjacency <- tukeyAdjacency(pepdat=pepdat, power=pnet@power, type=signed, cores=cores)
+  if (is.null(adjmat)) {
+    print("Computing adjacency")
+    pnet@adjacency <- tukeyAdjacency(pepdat=pepdat, power=pnet@power, type=signed, cores=cores)
+  } else {
+    pnet@adjacency <- adjmat
+  }
   print("Computing TOM")
   pnet@TOM = TOMsimilarity(pnet@adjacency, TOMType=signed);
   dissTOM = 1-pnet@TOM
