@@ -59,8 +59,9 @@ newProconaObj <- function
                                         # Construct numerical labels corresponding to the colors
   pnet@colorOrder = c("grey", standardColors(50));
                                         # Permutation test for module topological overlap
-  pnet <- toPermTest(pnet, pepdat, toPermTestPermutes)
-  
+  if(performTOPermtest) {
+    pnet <- toPermTest(pnet, pepdat, toPermTestPermutes)
+  }
   print("DONE!")
   return(pnet)
   ### returns the procona network object
@@ -133,8 +134,9 @@ newRobustProconaObj <- function
                                         # Construct numerical labels corresponding to the colors
   pnet@colorOrder = c("grey", standardColors(50));
                                         # Permutation test for module topological overlap
-  pnet <- toPermTest(pnet, pepdat, toPermTestPermutes)
-  
+  if(performTOPermtest) {
+    pnet <- toPermTest(pnet, pepdat, toPermTestPermutes)
+  }
   print("DONE!")
   return(pnet)
   ### returns the procona network object
