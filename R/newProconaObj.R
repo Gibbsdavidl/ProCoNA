@@ -6,7 +6,7 @@ newProconaObj <- function
 (networkName,             ##<< Name of this network
  pepdat,                  ##<< This variable is the data set with rows as samples and cols as peptides
  pow=NULL,                ##<< The scaling power, NULL if unknown
- signed=F,                ##<< Whether the sign is considered in constructing adjacency and TOM
+ signed="unsigned",       ##<< Whether the sign is considered in constructing adjacency and TOM
  scaleFreeThreshold=0.8,  ##<< The threshold for fitting to scale-free topology.. will use closest power.
  deepSplit = 2,           ##<< Course grain control of module size
  minModuleSize=30,        ##<< The minimum module size allowed
