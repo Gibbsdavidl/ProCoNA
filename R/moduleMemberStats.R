@@ -14,7 +14,11 @@ modulePhenotypeCorrelations <- function
   
                                         # The following setting is important, do not omit.
   options(stringsAsFactors = FALSE);
-  
+  for (i in 1:ncol(phenotypes)) {
+    x <- phenotypes[,i]
+    phenotypes[,i] <- if(typeof(x) != "double") {as.numeric(factor(x))} else x
+  }
+
                                         # Define numbers of genes and samples
   nPeptides = ncol(pepdat);
   nSamples = nrow(pepdat);
@@ -49,7 +53,10 @@ moduleMemberCorrelations <- function
   
                                         # The following setting is important, do not omit.
   options(stringsAsFactors = FALSE);
-  
+  for (i in 1:ncol(phenotypes)) {
+    x <- phenotypes[,i]
+    phenotypes[,i] <- if(typeof(x) != "double") {as.numeric(factor(x))} else x
+  }
                                         # Define numbers of genes and samples
   nPeptides = ncol(pepdat);
   nSamples = nrow(pepdat);
