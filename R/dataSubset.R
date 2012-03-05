@@ -9,7 +9,7 @@ getPeptideNAs <- function
 }
 
 
-subsetPepideData <- function
+subsetPeptideData <- function
 ### Return the smaller peptide table, omitting NAs
 (pepdat, ##<< the peptide information
  numNAsAllowed=NULL, ##<< the number of NAs allowed for each peptide

@@ -10,12 +10,13 @@ correlationWithPhenotypesHeatMap <- function
  pdat,             ##<< the peptide data
  phenotypes,       ##<< matrix of phenotypic traits
  plotName="phenotypeHeatmap.pdf",  ##<< the name of the saved plot
- title="Module-trait relationships" ##<< plot main title
+ title="Module-trait relationships", ##<< plot main title
+ textSize=0.4
  ) {
 
   modCors <- modulePhenotypeCorrelations(pnet,pdat,phenotypes)
   
-  pdf(plotName)
+  
   mms <- 1:(ncol(modCors)/2)
   mmps <- ((ncol(modCors)/2)+1):ncol(modCors)
   modCorMM <- as.matrix(modCors[,mms])
@@ -23,11 +24,12 @@ correlationWithPhenotypesHeatMap <- function
 
   # pastes into a vector down columns
   textMatrix <- paste(signif(modCorMM, 2), "\n(", sep="")
-  textMatrix <- paste(textMatrix, paste(signif(modCorPS, 2), ")", sep = ""), sep="")
+  textMatrix <- paste(textMatrix, paste(signif(modCorPS, 1), ")", sep = ""), sep="")
   textMatrix <- matrix(textMatrix, byrow=F, nrow=nrow(modCorMM))  
 
   par(mar = c(6, 8.5, 3, 3));
                                         # Display the correlation values within a heatmap plot
+  pdf(plotName)
   labeledHeatmap(Matrix = modCors[,mms],
                  xLabels = names(phenotypes),
                  yLabels = rownames(modCors),
@@ -36,7 +38,7 @@ correlationWithPhenotypesHeatMap <- function
                  colors = greenWhiteRed(50),
                  textMatrix = textMatrix,
                  setStdMargins = FALSE,
-                 cex.text = 0.4,
+                 cex.text = textSize,
                  zlim = c(-1,1),
                  main = title)
   dev.off()
