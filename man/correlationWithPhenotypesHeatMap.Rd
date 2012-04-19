@@ -9,7 +9,8 @@ correlationWithPhenotypesHeatMap(pnet,
 pdat,
 phenotypes,
 plotName = "phenotypeHeatmap.pdf",
-title = "Module-trait relationships")
+title = "Module-trait relationships",
+textSize = 0.4)
 }
 \arguments{
   \item{pnet}{the peptide network object}
@@ -17,6 +18,8 @@ title = "Module-trait relationships")
   \item{phenotypes}{matrix of phenotypic traits}
   \item{plotName}{the name of the saved plot}
   \item{title}{plot main title}
+  \item{textSize}{
+}
 }
 
 \value{the module eigenvector correlations}

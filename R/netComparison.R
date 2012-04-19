@@ -121,6 +121,7 @@ compareNetworksWithFishersExactTest <- function
   fishLog <- matrix(p.adjust(fishers, "hochberg"), nrow=nrow(m[[1]]), byrow=F)
   fishLog <- -log10(fishLog)
   logLevels <- sort(cut(fishLog, 64)) # factors 1 - 64 for legend
+  fishLogMatrix <- fishLog
 
   # normalize for nice colors
   fishLog[which(is.infinite(fishLog))] <- NA
@@ -152,7 +153,7 @@ compareNetworksWithFishersExactTest <- function
       text(x=i, y=j, labels = overlap[i,j], cex = 0.65)
     }
   }
-  return(list(fishLog, overlap))
+  return(list(fishLogMatrix, overlap))
   ### returns fishers exact test -log pvalues and overlap matrix
 }
 
@@ -164,8 +165,8 @@ compareNetworksWithFishersExactTestProcona <- function
  netobj2, ##<< procona object for network 2
  title    ##<< plot title
 ){
-  compareNetworksWithFishersExactTest(peptides(netobj1), peptides(netobj2),
-                                      mergedColors(netobj1), mergedColors(netobj2),
+  compareNetworksWithFishersExactTest(proconaPeptides(netobj1), proconaPeptides(netobj2),
+                                      proconaMergedColors(netobj1), proconaMergedColors(netobj2),
                                       title)
   ### returns the list of fisher -log pvalues, and overlaps between modules
 }

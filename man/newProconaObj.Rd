@@ -6,7 +6,9 @@
 newProconaObj(networkName,
 pepdat,
 pow = NULL,
-signed = F,
+powMax = 20,
+signed = "unsigned",
+pearson = T,
 scaleFreeThreshold = 0.8,
 deepSplit = 2,
 minModuleSize = 30,
@@ -19,7 +21,9 @@ toPermTestPermutes = 10000)
   \item{networkName}{Name of this network}
   \item{pepdat}{This variable is the data set with rows as samples and cols as peptides}
   \item{pow}{The scaling power, NULL if unknown}
+  \item{powMax}{The maximum power to be searched.}
   \item{signed}{Whether the sign is considered in constructing adjacency and TOM}
+  \item{pearson}{use Pearson's cor or the robust bi-weight correlation}
   \item{scaleFreeThreshold}{The threshold for fitting to scale-free topology.. will use closest power.}
   \item{deepSplit}{Course grain control of module size}
   \item{minModuleSize}{The minimum module size allowed}

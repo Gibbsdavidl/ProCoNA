@@ -10,10 +10,11 @@
 \section{Slots}{
   \describe{
     \item{\code{networkName}:}{Object of class \code{"character"}}
+    \item{\code{samples}:}{Object of class \code{"character"}}
     \item{\code{adjacency}:}{Object of class \code{"matrix"}}
     \item{\code{TOM}:}{Object of class \code{"matrix"}}
     \item{\code{peptides}:}{Object of class \code{"character"}}
-    \item{\code{geneTree}:}{Object of class \code{"hclust"}}
+    \item{\code{pepTree}:}{Object of class \code{"hclust"}}
     \item{\code{dynamicColors}:}{Object of class \code{"numeric"}}
     \item{\code{MEs}:}{Object of class \code{"data.frame"}}
     \item{\code{mergedMEs}:}{Object of class \code{"data.frame"}}

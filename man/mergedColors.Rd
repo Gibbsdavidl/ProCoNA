@@ -1,7 +1,7 @@
 \name{mergedColors}
 \alias{mergedColors}
 \title{mergedColors}
-\description{this function returns the names of the peptides in the pepnet object}
+\description{this function returns the vector of module identifiers}
 \usage{
 mergedColors(p)
 }
@@ -9,7 +9,7 @@ mergedColors(p)
   \item{p}{the procona obj}
 }
 
-\value{returns the vector of peptide IDs}
+\value{returns the vector module names for each peptide}
 
 \author{David L Gibbs}
 
