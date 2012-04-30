@@ -38,7 +38,7 @@ newProconaObj <- function
                                 type=signed, corOptions="use='pairwise.complete.obs'")    
   } else {
     pnet@adjacency <- adjacency(datExpr=pepdat, power=pnet@power, type=signed,
-                                cortype="bicor", corOptions="use='pairwise.complete.obs'")
+                                corFnc="bicor", corOptions="use='pairwise.complete.obs'")
   }
   print("Computing TOM")
   pnet@TOM = TOMsimilarity(pnet@adjacency, TOMType=signed);

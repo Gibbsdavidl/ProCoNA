@@ -120,6 +120,7 @@ compareNetworksWithFishersExactTest <- function
   # will use the -log of hochberg adjusted p-values
   fishLog <- matrix(p.adjust(fishers, "hochberg"), nrow=nrow(m[[1]]), byrow=F)
   fishLog <- -log10(fishLog)
+  colnames(fishLog) <- colnames(fishers); rownames(fishLog) <- rownames(fishers)
   logLevels <- sort(cut(fishLog, 64)) # factors 1 - 64 for legend
   fishLogMatrix <- fishLog
 
