@@ -53,7 +53,7 @@ MMvsPS <- function
 ### Plots the module membership against the peptide significance
 ### for a given trait and module
 (net,      ##<< The procona network
- peptable, ##<< the peptide data, with rows as samples and columns as peptides
+ pepdat,   ##<< the peptide data, with rows as samples and columns as peptides
  phenoVec, ##<< the phenotypic trait, vector
  mod       ##<< the module of interest
  ) {

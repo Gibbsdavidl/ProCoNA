@@ -25,7 +25,8 @@ newProconaObj <- function
   if (is.null(pow)) {
     print("Computing soft threshold power")
     softThreshold <- pickSoftThreshold(pepdat, powerVector=1:powMax,
-                                       RsquaredCut=scaleFreeThreshold, networkType=signed)
+                                       RsquaredCut=scaleFreeThreshold,
+                                       networkType=signed)
     pnet@power=softThreshold$powerEstimate
   } else {
     pnet@power=pow
