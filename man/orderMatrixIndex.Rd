@@ -2,9 +2,7 @@
 \alias{orderMatrixIndex}
 \title{orderMatrixIndex}
 \description{Order the the matrix by upper diag in a greedy fashion}
-\usage{
-orderMatrixIndex(mat)
-}
+\usage{orderMatrixIndex(mat)}
 \arguments{
   \item{mat}{A matrix}
 }

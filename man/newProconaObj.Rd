@@ -2,21 +2,10 @@
 \alias{newProconaObj}
 \title{newProconaObj}
 \description{This function returns a peptide co-expression network object.}
-\usage{
-newProconaObj(networkName,
-pepdat,
-pow = NULL,
-powMax = 20,
-signed = "unsigned",
-pearson = T,
-scaleFreeThreshold = 0.8,
-deepSplit = 2,
-minModuleSize = 30,
-mergeThreshold = 0.1,
-clusterType = "average",
-performTOPermtest = TRUE,
-toPermTestPermutes = 10000)
-}
+\usage{newProconaObj(networkName = "procona", pepdat = NULL, pow = NULL, 
+    powMax = 20, signed = "unsigned", pearson = T, scaleFreeThreshold = 0.8, 
+    deepSplit = 2, minModuleSize = 30, mergeThreshold = 0.1, 
+    clusterType = "average", performTOPermtest = TRUE, toPermTestPermutes = 100)}
 \arguments{
   \item{networkName}{Name of this network}
   \item{pepdat}{This variable is the data set with rows as samples and cols as peptides}

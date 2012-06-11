@@ -161,8 +161,6 @@ goStatTest <- function
  pvalue, ##<< pvalue cutoff
  cond      ##<< conditional parameter, see GOstats.
  ) {
-
-  library(GOstats)
   
   #mass tag ids in this module
   modpeps <- pnet@peptides[which(pnet@mergedColors == module)]
@@ -198,7 +196,7 @@ ppiPermTest <- function
  pi_edges,  ##<< Must be two columns A-B ... sort out in vivo or in vitro in advance
  pepinfo,   ##<< Maps peptides to proteins ... same format as in ppiTable
  pepnet,    ##<< procona network object
- pepdat,    ##<< the logged data matrix with peptides as columns.
+ pepdat,    ##<< the data matrix with peptides as columns.
  netRefSeqs ##<< the peptides mapped to refseq IDs. named vector.
  ) {
 
@@ -304,7 +302,7 @@ ppiPermTest <- function
       pvals[i] = p_pvalue
       m.name[i] = module
       m.orig.size[i] = length(mpeps)
-      m.kme.size[i] = sum(kme[,col_kme] > threshold & modules == module) #& is.element(rownames(kme),mpeps))
+      m.kme.size[i] = sum(kme[,col_kme] > threshold & modules == module)
       m.rel.size[i] = length(fpeps)
       m.edge.observed[i] = p_observed
     }

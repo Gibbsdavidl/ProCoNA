@@ -1,4 +1,14 @@
 
+subsetModCors <- function
+### subsets the module-phenotype correlation matrix which has funny rownames
+(modCors,  ##<< The matrix of module-phenotype correlations
+ modules   ##<< Which modules are desired.
+ ) {
+  rows <- rownames(modCors)  # like ME3
+  ms <- sapply(modules, function(x) paste("ME", x, sep=""))
+  modCors[which(rows %in% ms),]
+}
+
 
 
 correlationWithPhenotypesHeatMap <- function
@@ -9,14 +19,14 @@ correlationWithPhenotypesHeatMap <- function
 (pnet,             ##<< the peptide network object
  pdat,             ##<< the peptide data
  phenotypes,       ##<< matrix of phenotypic traits
- plotName="phenotypeHeatmap.pdf",  ##<< the name of the saved plot
+ modules,          ##<< the vector of modules to plot
+ plotName=NULL,    ##<< the name of the saved plot, NULL to show on screen
  title="Module-trait relationships", ##<< plot main title
  textSize=0.4
  ) {
 
   modCors <- modulePhenotypeCorrelations(pnet,pdat,phenotypes)
-  
-  
+  modCors <- subsetModCors(modCors, modules)
   mms <- 1:(ncol(modCors)/2)
   mmps <- ((ncol(modCors)/2)+1):ncol(modCors)
   modCorMM <- as.matrix(modCors[,mms])
@@ -29,7 +39,8 @@ correlationWithPhenotypesHeatMap <- function
 
   par(mar = c(6, 8.5, 3, 3));
                                         # Display the correlation values within a heatmap plot
-  pdf(plotName)
+  if(!is.null(plotName)) {pdf(plotName)};
+  
   labeledHeatmap(Matrix = modCors[,mms],
                  xLabels = names(phenotypes),
                  yLabels = rownames(modCors),
@@ -41,7 +52,7 @@ correlationWithPhenotypesHeatMap <- function
                  cex.text = textSize,
                  zlim = c(-1,1),
                  main = title)
-  dev.off()
+  if(!is.null(plotName)) {dev.off()}
 
   return(modCors)
   ### the module eigenvector correlations

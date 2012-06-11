@@ -10,15 +10,8 @@ d2 == number of entities in module B but not in module A
 2x2 matrix for the test is then:
 m  d1
 d2 n-d1-d2-m}
-\usage{
-compareNetworksWithFishersExactTest(net1,
-net2,
-colors1,
-colors2,
-title = "",
-net1label = "",
-net2label = "")
-}
+\usage{compareNetworksWithFishersExactTest(net1, net2, colors1, colors2, 
+    title = "", net1label = "", net2label = "")}
 \arguments{
   \item{net1}{Net 1 entities, character vector}
   \item{net2}{Net 2 entiites, character vector}

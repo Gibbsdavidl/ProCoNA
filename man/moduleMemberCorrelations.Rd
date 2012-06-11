@@ -3,11 +3,7 @@
 \title{moduleMemberCorrelations}
 \description{Computes the relation between the modules and
 the phenotypes.}
-\usage{
-moduleMemberCorrelations(pnet,
-pepdat,
-phenotypes)
-}
+\usage{moduleMemberCorrelations(pnet, pepdat, phenotypes)}
 \arguments{
   \item{pnet}{The peptide net object}
   \item{pepdat}{The peptide data}

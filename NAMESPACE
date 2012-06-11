@@ -1,0 +1,21 @@
+exportPattern("^[[:alpha:]]+")
+
+import(GOstats,WGCNA)
+
+export(
+  newProconaObj,
+  subsetPeptideData,
+  modulePhenotypeCorrelations,
+  moduleMemberCorrelations,
+  toPermTest,
+  peptideConnectivityTest,
+  peptideCorrelationTest,
+  goStatTest,
+  ppiPermTest,
+  getFisherMatrix,
+  compareNetworksWithFishersExactTest,
+  compareNetworksWithFishersExactTestProcona,
+  correlationWithPhenotypesHeatMap,
+  MMvsPS,
+  MMvsPSallModules
+  )

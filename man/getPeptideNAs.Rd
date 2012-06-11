@@ -2,9 +2,7 @@
 \alias{getPeptideNAs}
 \title{getPeptideNAs}
 \description{This function returns the number of NAs for each peptide.}
-\usage{
-getPeptideNAs(pepdat)
-}
+\usage{getPeptideNAs(pepdat)}
 \arguments{
   \item{pepdat}{the peptide data.}
 }

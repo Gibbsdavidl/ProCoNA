@@ -2,18 +2,8 @@
 \alias{goStatTest}
 \title{goStatTest}
 \description{Wrapper function to run the hyperGTest from package GOstats}
-\usage{
-goStatTest(pnet,
-module,
-pepinfo,
-pepColName,
-protColName,
-universe,
-onto,
-annot,
-pvalue,
-cond)
-}
+\usage{goStatTest(pnet, module, pepinfo, pepColName, protColName, universe, 
+    onto, annot, pvalue, cond)}
 \arguments{
   \item{pnet}{the procona network}
   \item{module}{module of interest}

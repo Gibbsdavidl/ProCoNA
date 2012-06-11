@@ -54,7 +54,7 @@ proconaName <- function
 }
 
 
-neworkSamples <- function
+proconaSamples <- function
 ### this function returns the names of the samples
 (p  ##<< the procona obj
  ) {
@@ -105,12 +105,6 @@ proconaMergedColors <- function
   return(p@mergedColors)
 ### returns the vector module names for each peptide
 }
-
-
-
-                                        #setMethod("mergedColors", signature(pnet="pepnet"),
-#          function(pnet) mergedColors(pnet) 
-#          )
 
 
 proconaPower <- function

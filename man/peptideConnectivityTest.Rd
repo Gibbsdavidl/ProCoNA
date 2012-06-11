@@ -6,17 +6,13 @@ peptides linked to a given protein, against a randomly
 drawn, similarly sized, selection of peptides.
 The hypothesis is that peptides from a given protein
 should be more connected than random.}
-\usage{
-peptideConnectivityTest(pnet,
-pepInfo,
-pepCol,
-protCol)
-}
+\usage{peptideConnectivityTest(pnet, pepInfo, pepCol, protCol, repsPerProt)}
 \arguments{
   \item{pnet}{The peptide net object}
   \item{pepInfo}{The peptide information table, mapping peptides to proteins}
   \item{pepCol}{The string identifying the column in the pepInfo table with peptide ID}
   \item{protCol}{String identifying column in pepInfo with Protein ID.}
+  \item{repsPerProt}{number of repetitions for the null}
 }
 
 \value{Returns a list of the connected peptides and the random samples.}
