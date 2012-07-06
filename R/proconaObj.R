@@ -1,5 +1,6 @@
 
 ##|| The pepcor class will hold all the results from peptide network calculations
+##|| Version of procona that built the network
 ##|| the name of the network
 ##|| the samples used to make the network
 ##|| the adjacency matrix
@@ -12,24 +13,28 @@
 ##|| the merged colors
 ##|| the color order
 ##|| the power used in the model
+##|| the adjacency matrix is signed or unsigned
 ##|| the results of the permutation test
 
 setClass("pepnet",
-         representation(networkName="character",
-                        samples="character",
-                        adjacency = "matrix",
-                        TOM = "matrix",
-                        peptides = "character", 
-                        pepTree = "hclust", 
-                        dynamicColors = "numeric", 
-                        MEs = "data.frame", 
-                        mergedMEs = "data.frame", 
-                        mergedColors = "numeric", 
-                        colorOrder = "character", 
-                        power= "numeric", 
-                        permtest="matrix" 
-                        )
-        
+         representation(
+           proconaVersion = "character",
+           networkName="character",
+           samples="character",
+           adjacency = "matrix",
+           TOM = "matrix",
+           peptides = "character", 
+           pepTree = "hclust", 
+           dynamicColors = "numeric", 
+           MEs = "data.frame", 
+           mergedMEs = "data.frame", 
+           mergedColors = "numeric", 
+           colorOrder = "character", 
+           power= "numeric",
+           networkType= "character",
+           permtest="matrix" 
+           )
+         
          )
 
 

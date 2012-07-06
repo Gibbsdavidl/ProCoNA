@@ -78,7 +78,7 @@ MMvsPS <- function
   mmCors <- vector("numeric", pepnum)
   psCors <- vector("numeric", pepnum)
   
-  dat <- peptable[,thesePeps]
+  dat <- pepdat[,thesePeps]
   
   for (i in 1:pepnum) {
 

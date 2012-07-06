@@ -28,3 +28,12 @@ i2col <- function
   y <- ceiling(i/nrows)
 ### returns the column of the matrix
 }
+
+utri <- function
+### The upper triangle of a matrix
+(mat  ##<< A matrix
+ ){
+  mat[upper.tri(mat)]
+  ### Returns a vector
+}
+  

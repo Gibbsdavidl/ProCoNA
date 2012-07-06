@@ -1,4 +1,9 @@
 
+proconaVersion <- function
+### Keep track of the version of procona used to build networks.
+() {
+  return("0.13")
+}
 
 newProconaObj <- function
 ### This function returns a peptide co-expression network object.
@@ -6,27 +11,40 @@ newProconaObj <- function
  pepdat=NULL,             ##<< This variable is the data set with rows as samples and cols as peptides
  pow=NULL,                ##<< The scaling power, NULL if unknown
  powMax=20,               ##<< The maximum power to be searched.
- signed="unsigned",       ##<< Whether the sign is considered in constructing adjacency and TOM
- pearson=T,               ##<< use Pearson's cor or the robust bi-weight correlation
+ networkType="signed",    ##<< Whether the sign is considered in constructing adjacency and TOM
+ pearson=F,               ##<< use Pearson's cor or the robust bi-weight correlation
  scaleFreeThreshold=0.8,  ##<< The threshold for fitting to scale-free topology.. will use closest power.
  deepSplit = 2,           ##<< Course grain control of module size
  minModuleSize=30,        ##<< The minimum module size allowed
  mergeThreshold=0.1,      ##<< Below this threshold, modules are merged.
  clusterType="average",   ##<< Clustering option
+ pamRespectsDendro=T,     ##<< When cutting the dendrogram, pay attention to branch membership.
  performTOPermtest=TRUE,  ##<< Performs permutation testing on modules
  toPermTestPermutes=100   ##<< Number of permutations to do.
  ){
 
   print("Constructing New ProCoNA Object")
   pnet = new("pepnet")
+  pnet@proconaVersion = proconaVersion()
   pnet@networkName=networkName
+  pnet@networkType=networkType;
   pnet@samples=rownames(pepdat)
   if (is.null(pow)) {
     print("Computing soft threshold power")
-    softThreshold <- pickSoftThreshold(pepdat, powerVector=1:powMax,
-                                       RsquaredCut=scaleFreeThreshold,
-                                       networkType=signed)
+    if(pearson) {
+      softThreshold <- pickSoftThreshold(pepdat, powerVector=1:powMax,
+                                         RsquaredCut=scaleFreeThreshold,
+                                         networkType=networkType)
+    } else {
+      softThreshold <- pickSoftThreshold(pepdat, powerVector=1:powMax,
+                                         RsquaredCut=scaleFreeThreshold,
+                                         networkType=networkType, corFnc="bicor")
+    }
     pnet@power=softThreshold$powerEstimate
+    if(is.na(pnet@power)) {
+      print("Power Not Found!")
+      return(NULL)
+    }
   } else {
     pnet@power=pow
   }
@@ -37,18 +55,18 @@ newProconaObj <- function
   if (pearson) {
     pnet@adjacency <- adjacency(datExpr=pepdat,
                                 power=pnet@power,
-                                type=signed,
+                                type=networkType,
                                 corOptions="use='pairwise.complete.obs'")    
   } else {
     pnet@adjacency <- adjacency(datExpr=pepdat,
                                 power=pnet@power,
-                                type=signed,
+                                type=networkType,
                                 corFnc="bicor",
                                 corOptions="use='pairwise.complete.obs'")
   }
 
   print("Computing TOM")
-  pnet@TOM = TOMsimilarity(pnet@adjacency, TOMType=signed);
+  pnet@TOM = TOMsimilarity(pnet@adjacency, TOMType=networkType);
   rownames(pnet@TOM) <- pnet@peptides
   colnames(pnet@TOM) <- pnet@peptides
   rownames(pnet@adjacency) <- pnet@peptides
@@ -59,7 +77,8 @@ newProconaObj <- function
   pnet@pepTree = flashClust(as.dist(dissTOM), method = clusterType);
   pnet@dynamicColors = cutreeDynamic(dendro = pnet@pepTree,
     distM = dissTOM,
-    deepSplit = deepSplit, pamRespectsDendro = TRUE,
+    deepSplit = deepSplit,
+    pamRespectsDendro = pamRespectsDendro,
     minClusterSize = minModuleSize);
   print(table(pnet@dynamicColors))
                                         #merging modules

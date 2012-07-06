@@ -25,7 +25,7 @@ modulePhenotypeCorrelations <- function
                                         # Recalculate MEs with color labels
   MEs0 = pnet@mergedMEs
   MEs = orderMEs(MEs0)
-  moduleTraitCor = cor(MEs, phenotypes, use = "p");
+  moduleTraitCor = cor(MEs, phenotypes, use = "pairwise.complete.obs", );
   moduleTraitPvalue = corPvalueStudent(moduleTraitCor, nSamples);
   pvalueNames <- sapply(colnames(moduleTraitCor), function(x){paste(x,".pvalue",sep="")}) 
   colnames(moduleTraitPvalue) <- pvalueNames
@@ -66,7 +66,7 @@ moduleMemberCorrelations <- function
   
   modNames = substring(names(MEs), 3)
 
-  peptideModuleMembership = as.data.frame(cor(pepdat, MEs, use = "p"));
+  peptideModuleMembership = as.data.frame(cor(pepdat, MEs, use = "pairwise.complete.obs"));
 
   MMPvalue = as.data.frame(corPvalueStudent(
     as.matrix(peptideModuleMembership), nSamples));
@@ -74,7 +74,7 @@ moduleMemberCorrelations <- function
   names(peptideModuleMembership) = paste("MM", modNames, sep="");
   names(MMPvalue) = paste("p.MM", modNames, sep="");
 
-  peptideTraitSignificance = as.data.frame(cor(pepdat, phenotypes, use = "p"));
+  peptideTraitSignificance = as.data.frame(cor(pepdat, phenotypes, use = "pairwise.complete.obs"));
 
   PSPvalue = as.data.frame(corPvalueStudent(
     as.matrix(peptideTraitSignificance), nSamples));

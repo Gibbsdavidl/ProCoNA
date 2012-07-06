@@ -23,38 +23,37 @@ toPermTest <- function
   meanran = vector("numeric", length(u_colors))
   
   for(i in 1:length(u_colors)) {  # for each unique color
-    color = u_colors[i]           #   it's this color
 
-    idx = colors == color 
-    tomSubset = tom[idx,idx]
-    meanTO = mean(tomSubset)
-    size = sum(idx)           # idx is boolean with length == # peptides
-    x = 1:length(idx)         # indices to sample from
+    color = u_colors[i]           #   it's this color
+    idx <- colors == color 
+    tomSubset <- tom[idx,idx]
+    meanTO <- mean(utri(tomSubset)) # mean of upper triangle
+    size <- sum(idx)                # idx is boolean with length == peptides in module
+    x = 1:length(colors)            # indices to sample from
 
     cat("Permuting module: ", color, "\n")
-    cat("   dim of tom subset: ", dim(tomSubset), "\n")
+    cat("   dim of TOM: ", dim(tomSubset), "\n")
 
-                                        # create null distribution
+    # create null distribution
     dist = vector("numeric", numPermutes+1)
-    dist[numPermutes+1] = meanTO
+    dist[numPermutes+1]  <- meanTO
     for(j in 1:numPermutes) {
-      pdx = sample(x, size, replace=F)
-      ptom = tom[pdx,pdx]
-      pmean = mean(ptom)
-      #print(paste(i, ": ", round(meanTO,3), ", ", j, ": ", round(pmean,3)))
-      dist[j] = pmean
+      pdx   <- sample(x, size, replace <-F)
+      ptom   <- tom[pdx,pdx]
+      pmean   <- mean(utri(ptom))
+      dist[j]  <- pmean
     }
 
     # how many times did the permuted mean TO measure
     # greater than the real module mean TO?
-    pvalues[i] = sum(meanTO <= dist)/numPermutes
-    sizes[i]   = size
-    meantom[i] = meanTO
-    meanran[i] = mean(dist)
+    pvalues[i]  <- sum(meanTO <= dist)/numPermutes
+    sizes[i]    <- size
+    meantom[i]  <- meanTO
+    meanran[i]  <- mean(dist)
   }
 
-  to_test = cbind(u_colors, sizes, meantom, meanran, pvalues)
-  colnames(to_test) = c("module", "module size", "TOMmean", "PermMean", "TO p-value")
+  to_test <- cbind(u_colors, sizes, meantom, meanran, pvalues)
+  colnames(to_test) = c("module", "moduleSize", "TOMmean", "PermMean", "p-value")
   pnet@permtest = to_test
   return(pnet)
   ### returns the network obj with the perm test
@@ -161,6 +160,8 @@ goStatTest <- function
  pvalue, ##<< pvalue cutoff
  cond      ##<< conditional parameter, see GOstats.
  ) {
+
+  stopifnot(library(GOstats, logical.return=T))
   
   #mass tag ids in this module
   modpeps <- pnet@peptides[which(pnet@mergedColors == module)]

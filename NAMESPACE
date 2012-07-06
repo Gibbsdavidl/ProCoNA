@@ -1,6 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 
-import(GOstats,WGCNA)
+import(WGCNA)
 
 export(
   newProconaObj,
@@ -17,5 +17,7 @@ export(
   compareNetworksWithFishersExactTestProcona,
   correlationWithPhenotypesHeatMap,
   MMvsPS,
-  MMvsPSallModules
+  MMvsPSallModules,
+  corBootstrap,
+  parallelCorBoostrap
   )
