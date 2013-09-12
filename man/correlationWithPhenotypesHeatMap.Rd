@@ -1,24 +1,31 @@
 \name{correlationWithPhenotypesHeatMap}
 \alias{correlationWithPhenotypesHeatMap}
 \title{correlationWithPhenotypesHeatMap}
-\description{The heatmap showing the relation of the
-modules with the phenotypes computed by
-using the function relateModules(...)}
-\usage{correlationWithPhenotypesHeatMap(pnet, pdat, phenotypes, modules, 
+
+\description{Plots a heatmap showing the Pearson correlation of modules with phenotypes.}
+
+\usage{correlationWithPhenotypesHeatMap(net, phenotypes, modules, 
     plotName = NULL, title = "Module-trait relationships", textSize = 0.4)}
+
 \arguments{
-  \item{pnet}{the peptide network object}
-  \item{pdat}{the peptide data}
-  \item{phenotypes}{matrix of phenotypic traits}
-  \item{modules}{the vector of modules to plot}
-  \item{plotName}{the name of the saved plot, NULL to show on screen}
-  \item{title}{plot main title}
-  \item{textSize}{
-}
+  \item{net}{The ProCoNA network object.}
+  \item{phenotypes}{Matrix of phenotypic traits, can include character strings (converted to factors).}
+  \item{modules}{Vector of modules to plot. Default is all modules.}
+  \item{plotName}{Name of the saved plot, NULL to show on screen.}
+  \item{title}{Plot title.}
+  \item{textSize}{The font size of the correlations shown in each module-phenotype pair.}
 }
 
 \value{the module eigenvector correlations}
 
+\examples{
+data(ProCoNA_Data)
+net <- buildProconaNetwork("pepnet", peptideData, pow=12)
+n <- length(samples(net))
+phenotypes <- matrix(rnorm(10*n), nrow=60)
+moduleCors <- correlationWithPhenotypesHeatMap(net, phenotypes, modules = 1:7, 
+    plot = NULL, title = "Module-trait relationships", textSize = 0.5)
+}
 \author{David L Gibbs}
 
 

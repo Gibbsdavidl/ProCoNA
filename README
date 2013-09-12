@@ -1,3 +1,14 @@
-This is the Protein Co-expression Network Analysis Project
+This is the Protein Co-expression Network Analysis Project.
+Please have a look at the vignette for an example of a possible workflow.
+
+From the paper titled: Protein Co-expression Network Analysis (ProCoNA)
+Journal of Clinical Bioinformatics 2013, 3:11 doi:10.1186/2043-9113-3-11
+
+Thanks,
 David L Gibbs 
-Starting on github: November 27 2011
+
+
+RECENT CHANGES
+**************************************************************************
+0.99.1 - Updated man pages, removed many dontrun statements.
+       - Updated the getters/setters.

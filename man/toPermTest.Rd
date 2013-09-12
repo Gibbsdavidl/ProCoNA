@@ -9,14 +9,18 @@ Modules are permuted and mean topological overlap
 is recorded, constructing the null.  The number
 of random permutations with mean TO greater than
 observed provides the p-value.}
-\usage{toPermTest(pnet, dat, numPermutes = 100)}
+\usage{toPermTest(pnet, numPermutes = 100)}
 \arguments{
-  \item{pnet}{to get the colors}
-  \item{dat}{the data used to build the model}
+  \item{pnet}{ProCoNA network object.}
   \item{numPermutes}{The number of permutations to perform}
 }
 
 \value{returns the network obj with the perm test}
+\examples{
+data(ProCoNA_Data)
+net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
+toPermTest(net1, 100)
+}
 
 \author{David L Gibbs}
 

@@ -1,0 +1,23 @@
+\name{ProCoNA-package}
+\alias{ProCoNA-package}
+\docType{package}
+\title{Protein co-expression network analysis.}
+\description{Protein co-expression network construction using peptide level data, with statisical analysis.}
+\details{
+\tabular{ll}{Package: \tab ProCoNA\cr
+Type: \tab Package\cr
+Title: \tab Protein co-expression network analysis.\cr
+Version: \tab 0.13\cr
+Date: \tab 2011-08-10\cr
+Author: \tab David L Gibbs\cr
+Maintainer: \tab David Gibbs <gibbsd@ohsu.edu>\cr
+License: \tab GPLv3\cr
+LazyLoad: \tab yes\cr
+Depends: \tab WGCNA,Hmisc,BiocGenerics\cr
+Suggests: \tab RUnit\cr}
+}
+\author{David L Gibbs}
+
+\keyword{ package }
+
+

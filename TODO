@@ -1,12 +1,11 @@
 
+TODOs
 
+1.  Do PPI tests *have* to be refseq ids?
 
-TODO
+2.  Peptide Connectivity test output -- label the list.
+    Actuall all the results that come back as a list should be
+    labelled.
 
-1.  Add error checking.
-2.  Do PPI tests *have* to be refseq ids?  Probably Not!
-3.  Add a signed field to the network object
-4.  Get the S4 functions correctly implemented and added to the namespace
-5.  Add a version number to the network object.
 
 

@@ -1,0 +1,252 @@
+
+\documentclass{article}
+
+\usepackage{natbib}
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\cov}{cov}
+
+% \VignetteIndexEntry{De Novo Peptide Network Example}
+
+\begin{document}
+
+<<foo,include=FALSE,echo=FALSE>>=
+options(keep.source = TRUE, width = 70, stringsAsFactors=F, digits=2)
+foo <- packageDescription("procona")
+x <- capture.output(library(procona))
+@
+
+\title{ProCoNA: Protein Co-expression Network Analysis (Version \Sexpr{foo$Version})}
+\author{David L Gibbs}
+\maketitle
+
+\section{De Novo Peptide Networks}
+
+ProCoNA (protein co-expression network analysis) is an R package aimed
+at constructing and analyzing peptide co-expression networks.  These
+networks are constructed using data derived from mass spectroscopy
+experiments (primarily accurate mass and time tag based LC-MS). This
+package streamlines the process of building and testing networks using
+an S4 object to bundle relevant network information for downstream analysis. The package is built around calls to WGCNA functions (weighted gene co-expression network analysis), which are fast and robust. ProCoNA adds a suite of statistical tests particularly suited to the unique challenges found in proteomics. These tests include permutation testing for module structure and within-protein correlation. Peptide co-expression networks bring novel approaches for biological interpretation, quality control, inference of protein abundance, potentially resolving degenerate peptide-protein mappings, and biomarker signature discovery.
+
+Simulated peptide data is found in the data directory along with a simulated mass tag database.
+The simulated peptide data was generated using the OpenMS MSSimulator
+with a random selection of mouse proteins. The peptide data has peptide IDs
+as column names and a row for each sample. The simulated masstag
+database is a table mapping each peptide ID to a peptide sequence and
+potential parent proteins. The simulated phenotypes data frame has
+five phenotypes labeled A to E.
+
+The first thing we want to do is to remove any peptides with excessive
+missing values. We do that by taking peptides that are present in greater
+than 80\% of the samples. 
+
+<<Removing Missing Data>>=
+data(ProCoNA_Data)
+peptideData <- subsetPeptideData(peptideData, percentageNAsAllowed=0.2)
+dim(peptideData)
+@
+
+At this point we have a matrix of peptide data; peptides in columns
+and samples in rows. The ProCoNA network is based upon a correlation
+network that is scaled with an appropriate power to make the
+distribution of correlations approximately scale free. The WGCNA function
+pickSoftThreshold works very well for this.
+
+<<Picking the scaling number.>>=
+beta <- pickSoftThreshold(peptideData, networkType="signed", RsquaredCut=0.8)
+beta$powerEstimate
+@ 
+
+The first power with a scale-free model fit of $R^2 \ge 0.8$ is $\beta = 12$. So
+we'll use that in our network. At this point, the network can be built
+using a number of different parameters. Only some of the most
+important parameters will be mentioned here. Please see the documentation 
+for the full list.
+
+The network is built by first computing a correlation matrix,
+pairwise using peptides. The correlations can be taken as the absolute
+value (``unsigned'') or the direction of correlation can be preserved
+(``signed''). The correlations themselves can be computed with
+Pearson's or with a Robust Bi-weight correlation. Using this
+correlation matrix as a basis, the rest of the network is computed
+starting with the topological overlap matrix (TOM). A dendrogram is
+computed using the distance matrix (1-TOM) which is then clustered
+using the dynamicTreecut algorithm resulting in module assignments
+(dynamicColors) for each peptide. Each module has an associated module
+eigenvector (ME) that acts as an overall summary for the
+module. The MEs can be correlated with sample phenotypes to search
+for biological relevance. Next, modules that are considered to be
+highly similar are merged producing a new set of module assignments
+(mergedColors), and module eigenvectors (mergedMEs). 
+
+After the network is complete, a permutation test can be performed indicating the
+significance of each module. The test compares the mean topological
+overlap within a given module to the topological overlap of random
+peptides (with same size as the test module). The number of permutation can be
+controlled with the toPermTestPermutes parameter. An example of
+calling the network building function is shown below.
+
+<<Building the ProCoNA Network>>=
+peptideNetwork <- buildProconaNetwork(networkName="my network", 
+                                      pepdat=peptideData, 
+                                      networkType="signed", 
+                                      pow=beta$powerEstmate, 
+                                      pearson=F, 
+                                      toPermTestPermutes=1000)
+@ 
+
+The peptideNetwork is a S4 object of class "proconaNet". The object
+has a number of slots to store the various parts of the network: the
+correlation matrix, TOM, dendrogram, and module assignments as well as
+the permutation test results and parameters used in building the network.
+You can see the entire list by:
+
+<<Viewing proconaNet slots>>=
+getSlots("proconaNet")
+@ 
+
+We can get a summary of the network:
+<<Network Summary>>=
+printNet(peptideNetwork)
+@ 
+
+To access the various slots, we use accessor functions.
+<<Accessor functions>>=
+networkName(peptideNetwork)
+samples(peptideNetwork)[1:5]
+peptides(peptideNetwork)[1:5]
+mergedColors(peptideNetwork)[1:5]
+@ 
+
+The topological significance of network modules is shown by:
+<<Module Significance>>=
+peptideNetwork <- toPermTest(peptideNetwork)
+permtest(peptideNetwork)
+@ 
+
+We can get a sense of what the network ``looks'' like by plotting the
+dendrogram. 
+<<Plot Network Dendrogram>>=
+plotNet(peptideNetwork)
+@ 
+
+To learn more about individual modules we can subset peptides by
+module, and compute the mean topological overlap.
+
+<<Operating on modules>>=
+module1 <- which(mergedColors(peptideNetwork) == 1)
+module1_TOM <- TOM(peptideNetwork)[module1, module1]
+mean(utri(module1_TOM))
+@ 
+
+Ultimately, we want to know if this network contains modules related to a biological
+or clinical phenotype. To do that, we look at the correlation of the module
+eigenvectors with a quantitative phenotype. The function
+correlationWithPhenotypesHeatMap returns a data frame containing correlations
+and p-values between modules and phenotypes and also plots a heatmap showing
+the strength of correlation for each pair (as -log(p-value)). If a particular module
+eigenvector has a significant correlation to some given phenotype,
+then we may have found something interesting.
+
+The function moduleMemberCorrelations instead returns a matrix of Pearson's
+correlations but for peptides and both modules and phenotypes. 
+This matrix shows how each peptide is connected to both the
+module eigenvector and the various phenotypes. Peptides can be sorted
+within the module by their centrality (connection to module eigenvector), 
+imposing a sort of importance measure.
+
+To extract peptide information and peptide correlations by module, enabling one to sort peptides by
+connection to the module eigenvector or highest correlation to a given
+phenotype, the moduleData function below is used, provided below.
+
+<<Correlation of module eigenvectors with phenotypes.>>=
+
+phenotypeCor <- correlationWithPhenotypesHeatMap(net=peptideNetwork,
+                                                 phenotypes=phenotypes[,1:5],
+                                                 modules=1:5,                
+                                                 plotName=NULL, 
+                                                 title="new heatmap",
+                                                 textSize=0.7)
+
+pepcor <- moduleMemberCorrelations(pnet=peptideNetwork,
+                                      pepdat=peptideData,
+                                      phenotypes=phenotypes)
+
+#########################################################################
+# quick function to write out the tables for specific modules.
+moduleData <- function(pepnet, pepcors, module, pepinfo, fileprefix) {
+  moduleX <- peptides(pepnet)[which(mergedColors(pepnet)==module)]
+  moduleInfo <- pepinfo[which(pepinfo$Mass_Tag_ID %in% moduleX),]
+  moduleCors <- pepcors[which(pepcors$Module==module),]
+  corname <- paste(fileprefix, "_correlations.csv", sep="")
+  write.table(moduleCors, file=corname, sep=",", row.names=F)
+  infoname <- paste(fileprefix, "_peptide_info.csv", sep="")
+  write.table(moduleInfo, file=infoname, sep=",", row.names=F)
+}
+########################################################################
+
+# WRITE OUT A TABLE WITH THE BELOW FUNCTION CALL#
+# moduleData(peptideNetwork, pepcor, 1, masstagdb, "Module_1")
+@ 
+
+In order to use this package, the data needed to be in a matrix form, with peptides (or proteins) in columns, and samples in rows. However, most MS data is not in this format. What to do!? One solution is to ues the MSnbase package in Bioconductor, we can read data, normalize it, summarize it by feature, and export a quantitative expression! Please note that ProCoNA requires input matrices to have samples in rows, which means the result of MSnbase::exprs must be transposed before use. Be sure to see RforProteomics for more information.
+
+<<Working from raw data.>>=
+library(MSnbase)
+file <- dir(system.file(package = "MSnbase", dir = "extdata"), full.names = TRUE, pattern = "mzXML$")
+rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
+experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
+experiment <- trimMz(experiment, mzlim = c(112, 120))
+qnt <- quantify(experiment,
+                method = "trap",
+                reporters = iTRAQ4,
+                strict = FALSE,
+                parallel = FALSE,
+                verbose = FALSE)
+qnt.quant <- normalise(qnt, "quantiles")
+gb <- fData(qnt)$PeptideSequence
+qnt2 <- combineFeatures(qnt.quant, groupBy = gb, fun = "median")
+peptideData <- t(exprs(qnt2))
+
+@ 
+
+\begin{thebibliography}{}
+
+\bibitem[Langfelder(2008)Langfelder]{1}
+Langfelder, P. (2008).
+\newblock WGCNA: an R package for weighted gene co-expression network analysis.
+\newblock In \emph{BMC Bioinformatics,}.
+
+\bibitem[Falcon and Gentleman(2007)]{2}
+  Falcon, S. and Gentleman, R. (2007).
+\newblock Using GOstats to test gene lists for GO term association
+\newblock \emph{Bioinformatics} 23 (2): 257-258
+
+\bibitem[Langfelder et al.(2008)]{3}
+  Langfelder P., Zhang, B., Horvath, S. (2008).
+  \newblock Defining clusters from a hierarchical cluster tree: the Dynamic Tree Cut package for R
+  \newblock \emph{Bioinformatics} 24 (5): 719-720
+  
+\bibitem[Mason et al.(2009)]{4}
+  Mason, M.J., Fan, G., Plath, K., Zhou, Q., and Horvath, S. (2009)
+  \newblock  Signed weighted gene co-expression network analysis of transcriptional regulation in murine embryonic stem cells.
+  \newblock \emph{BMC Genomics}. Jul 20;10:327
+
+\bibitem[Gatto and Lilley (2011)]{5}
+  Gatto L., Lilley K. (2011)
+  \newblock MSnbase – an R/Bioconductor package for isobaric tagged mass spectrometry data visualisation, processing and quantitation
+  \newblock \emph{Bioinformatics} Jan 15;28(2):288-9.
+ 
+\bibitem[Gatto and Christoforou (2013)]{6}
+  Gatto L., Christoforou, A. (2013)
+  \newblock Using R and Bioconductor for proteomics data analysis.
+  \newblock \emph Biochim Biophys Acta. 2013 May 18. pii: S1570-9639(13)00186-6. doi: 10.1016/j.bbapap.2013.04.032.
+  
+\end{thebibliography}
+
+\end{document}

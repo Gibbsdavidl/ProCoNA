@@ -1,15 +1,19 @@
 \name{mergedColors}
 \alias{mergedColors}
 \title{mergedColors}
-\description{this function returns the vector of module identifiers}
-\usage{
-mergedColors(p)
-}
+\description{The vector of module assignments after the merging step.}
+\usage{mergedColors(p)}
 \arguments{
-  \item{p}{the procona obj}
+  \item{p}{The procona network object.}
 }
 
-\value{returns the vector module names for each peptide}
+\value{A numeric vector of module assignments corresponding to peptides(proconaNet).}
+
+\examples{
+data(ProCoNA_Data)
+net1 <- buildProconaNetwork("peptide network", peptideData)
+mergedColors(net1)
+}
 
 \author{David L Gibbs}
 

@@ -1,15 +1,18 @@
 \name{TOM}
 \alias{TOM}
 \title{TOM}
-\description{this function returns the topological overlap matrix}
-\usage{
-TOM(p)
-}
+\description{The topological overlap matrix.}
+\usage{TOM(p)}
 \arguments{
   \item{p}{the procona obj}
 }
 
-\value{returns the TOM}
+\value{Returns the topological overlap matrix.}
+\examples{
+data(ProCoNA_Data)
+net1 <- buildProconaNetwork("peptide network", peptideData)
+tomMat <- TOM(net1)
+}
 
 \author{David L Gibbs}
 

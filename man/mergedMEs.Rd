@@ -1,15 +1,13 @@
 \name{mergedMEs}
 \alias{mergedMEs}
 \title{mergedMEs}
-\description{this function returns the merged module eigenvectors}
-\usage{
-mergedMEs(p)
-}
+\description{The module eigenvectors before the module merging step.}
+\usage{mergedMEs(p)}
 \arguments{
-  \item{p}{the procona obj}
+  \item{p}{The procona network object.}
 }
 
-\value{returns the matrix of module eigenvectors in columns}
+\value{Returns the matrix of module eigenvectors, before module merging, in columns.}
 
 \author{David L Gibbs}
 

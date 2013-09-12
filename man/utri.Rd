@@ -8,6 +8,11 @@
 }
 
 \value{Returns a vector}
+\examples{
+data(ProCoNA_Data)
+net1 <- buildProconaNetwork("peptide network", peptideData)
+utri(TOM(net1))
+}
 
 \author{David L Gibbs}
 

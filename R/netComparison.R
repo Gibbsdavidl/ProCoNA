@@ -45,50 +45,72 @@ orderMatrixIndex <- function
 }
 
 
-getFisherMatrix <- function
-### Returns the matrix of fisher pvalues
-(net1,    ##<<  Net1 list of entities in the network (nodes of network 1)
- net2,    ##<<  Net2 list of entities in the network (nodes of network 2)
- colors1, ##<<  the module assignments for network 1
- colors2  ##<<  the module assignments for network 2
- ) {
+setGeneric("getFisherMatrix",
+           function(peps1,peps2,colors1,colors2) {
+               standardGeneric("getFisherMatrix")
+           })
 
-  modules1 <- unique(colors1)
-  modules2 <- unique(colors2)
-  fishermatrix  <- mat.or.vec(length(modules1), length(modules2))
-  overlapmatrix <- mat.or.vec(length(modules1), length(modules2))
-  n <- length(intersect(net1, net2))
-  
-  for (i in 1:length(modules1)) {
-    for (j in 1:length(modules2)) {
-      module1 <- net1[which(colors1 == modules1[i])]
-      module2 <- net2[which(colors2 == modules2[j])]
-      m <- length(intersect(module1, module2))
-      n1 <- length(setdiff(module1, module2))
-      n2 <- length(setdiff(module2, module1))
-      u <- n-n1-n2-m
-      if (m == 0) {
-        fishermatrix[i,j] <- 1 # tank the result if no overlap
-      } else {
-        fisherMat <- matrix(c(m, n1, n2, u), byrow=T, nrow=2)
-        fout <- fisher.test(fisherMat, conf.int=F)
-        fishermatrix[i,j] <- fout$p.value
-      }
-      overlapmatrix[i,j] <- m
-      }
-  }
-  rownames(fishermatrix) <- modules1
-  colnames(fishermatrix) <- modules2
-  rownames(overlapmatrix) <- modules1
-  colnames(overlapmatrix) <- modules2
-  
-  return(list(fishermatrix, overlapmatrix))
-  ### returns the fisher test pvalues and overlaps 
-}
+setMethod("getFisherMatrix",
+          signature(peps1="character",
+                    peps2="character",
+                    colors1="numeric",
+                    colors2="numeric"),
+          
+          function ### Returns the matrix of fisher pvalues
+          (peps1,    ##<<  Peps1 list of entities in the pepswork (nodes of pepswork 1)
+           peps2,    ##<<  Peps2 list of entities in the pepswork (nodes of pepswork 2)
+           colors1, ##<<  the module assignments for pepswork 1
+           colors2  ##<<  the module assignments for pepswork 2
+           ) {
+
+              modules1 <- unique(colors1)
+              modules2 <- unique(colors2)
+              fishermatrix  <- mat.or.vec(length(modules1), length(modules2))
+              overlapmatrix <- mat.or.vec(length(modules1), length(modules2))
+              n <- length(intersect(peps1, peps2))
+              
+              for (i in 1:length(modules1)) {
+                  for (j in 1:length(modules2)) {
+                      module1 <- peps1[which(colors1 == modules1[i])]
+                      module2 <- peps2[which(colors2 == modules2[j])]
+                      m <- length(intersect(module1, module2))
+                      n1 <- length(setdiff(module1, module2))
+                      n2 <- length(setdiff(module2, module1))
+                      u <- n-n1-n2-m
+                      if (m == 0) {
+                          fishermatrix[i,j] <- 1 # tank the result if no overlap
+                      } else {
+                          fisherMat <- matrix(c(m, n1, n2, u), byrow=T, nrow=2)
+                          fout <- fisher.test(fisherMat, conf.int=F)
+                          fishermatrix[i,j] <- fout$p.value
+                      }
+                      overlapmatrix[i,j] <- m
+                  }
+              }
+              rownames(fishermatrix) <- modules1
+              colnames(fishermatrix) <- modules2
+              rownames(overlapmatrix) <- modules1
+              colnames(overlapmatrix) <- modules2
+              
+              return(list(fishermatrix, overlapmatrix))
+### returns the fisher test pvalues and overlaps 
+})
 
 
+setGeneric("compareNetworksWithFishersExactTest",
+           function(peps1,peps2,colors1,colors2, title, net1label, net2label) {
+               standardGeneric("compareNetworksWithFishersExactTest")
+           })
 
-compareNetworksWithFishersExactTest <- function
+setMethod("compareNetworksWithFishersExactTest",
+          signature(peps1="character",
+                    peps2="character",
+                    colors1="numeric",
+                    colors2="numeric",
+                    title="character",
+                    net1label="character",
+                    net2label="character"),
+          function
 ### This makes the heatmap of agreement betewen networks, module-wise,
 ### by comparing each using Fisher's exact test where...
 ### n == number of entities in the network
@@ -98,79 +120,90 @@ compareNetworksWithFishersExactTest <- function
 ### 2x2 matrix for the test is then:
 ### m  d1
 ### d2 n-d1-d2-m
-(net1, ##<< Net 1 entities, character vector
- net2, ##<< Net 2 entiites, character vector
- colors1, ##<< modules for net 1
- colors2, ##<< modules for net 2
- title="", ##<< Plot title
- net1label="", ##<< xlabel
- net2label=""  ##<< ylabel
- ) {
+          (peps1, ##<< Net 1 entities, character vector
+           peps2, ##<< Net 2 entiites, character vector
+           colors1, ##<< modules for net 1
+           colors2, ##<< modules for net 2
+           title="", ##<< Plot title
+           net1label="", ##<< xlabel
+           net2label=""  ##<< ylabel
+           ) {
   
-  # first get the matrix of fisher test pvalues and overlaps
-  m <- getFisherMatrix(net1, net2, colors1, colors2)
-  fishers <- m[[1]]
-  overlap <- m[[2]]
+                                        # first get the matrix of fisher test pvalues and overlaps
+              m <- getFisherMatrix(peps1, peps2, colors1, colors2)
+              fishers <- m[[1]]
+              overlap <- m[[2]]
+              
+                                        # order overlaps in a greedy way, try to make nice diagonal
+              idx <- orderMatrixIndex(overlap)
+              fishers <- fishers[,idx]
+              overlap <- overlap[,idx]
+              
+                                        # will use the -log of hochberg adjusted p-values
+              fishLog <- matrix(p.adjust(fishers, "hochberg"), nrow=nrow(m[[1]]), byrow=F)
+              fishLog <- -log10(fishLog)
+              colnames(fishLog) <- colnames(fishers); rownames(fishLog) <- rownames(fishers)
+              logLevels <- sort(cut(fishLog, 64)) # factors 1 - 64 for legend
+              fishLogMatrix <- fishLog
+              
+                                        # normalize for nice colors
+              fishLog[which(is.infinite(fishLog))] <- NA
+              fishLog[which(is.na(fishLog))] <- max(fishLog, na.rm=T)
+              fishLog <- 1-(fishLog/max(fishLog))
+              d <- dim(fishLog)
+              colnames(fishLog) <- colnames(fishers)
+              rownames(fishLog) <- rownames(fishers)
+              
+                                        # the main image
+              b <- seq(from=0, to=1, length=65)
+              par( mar=c(5,5,5,7), xpd=T)
+              image(x=1:d[1], y=1:d[2], z=fishLog, col=heat.colors(64), breaks=b, main=title,
+                    xlab = peps1label, ylab=net2label, axes=F)
+              
+                                        # add a legend with 5 levels ... legendLable == "legend label"
+              legendLable <- names(table(logLevels))
+              legendLable <- legendLable[quantile(1:length(legendLable))]
+              legend(x=d[1]+1, y=10,legend=legendLable, cex=0.6, title="-log adj p-values",
+                     fill=c(heat.colors(64)[64],
+                         heat.colors(64)[48], heat.colors(64)[32],
+                         heat.colors(64)[16], heat.colors(64)[1]))
+              axis(1, at=1:d[1], (rownames(fishers)), cex.axis=0.65)
+              axis(2, at=1:d[2], (colnames(fishers)), cex.axis=0.65)
+              
+                                        # add the overlaps at each intersection of modules
+              for (i in 1:d[1]) {
+                  for (j in 1:d[2]) {
+                      text(x=i, y=j, labels = overlap[i,j], cex = 0.65)
+                  }
+              }
+              return(list(fishLogMatrix, overlap))
+### returns fishers exact test -log pvalues and overlap matrix
+          })
+          
 
-  # order overlaps in a greedy way, try to make nice diagonal
-  idx <- orderMatrixIndex(overlap)
-  fishers <- fishers[,idx]
-  overlap <- overlap[,idx]
 
-  # will use the -log of hochberg adjusted p-values
-  fishLog <- matrix(p.adjust(fishers, "hochberg"), nrow=nrow(m[[1]]), byrow=F)
-  fishLog <- -log10(fishLog)
-  colnames(fishLog) <- colnames(fishers); rownames(fishLog) <- rownames(fishers)
-  logLevels <- sort(cut(fishLog, 64)) # factors 1 - 64 for legend
-  fishLogMatrix <- fishLog
+setGeneric("compareNetworksWithFishersExactTestProcona",
+           function(net1,net2,title) {
+               standardGeneric("compareNetworksWithFishersExactTestProcona")
+           })
 
-  # normalize for nice colors
-  fishLog[which(is.infinite(fishLog))] <- NA
-  fishLog[which(is.na(fishLog))] <- max(fishLog, na.rm=T)
-  fishLog <- 1-(fishLog/max(fishLog))
-  d <- dim(fishLog)
-  colnames(fishLog) <- colnames(fishers)
-  rownames(fishLog) <- rownames(fishers)
-
-  # the main image
-  b <- seq(from=0, to=1, length=65)
-  par( mar=c(5,5,5,7), xpd=T)
-  image(x=1:d[1], y=1:d[2], z=fishLog, col=heat.colors(64), breaks=b, main=title,
-        xlab = net1label, ylab=net2label, axes=F)
-
-  # add a legend with 5 levels ... legendLable == "legend label"
-  legendLable <- names(table(logLevels))
-  legendLable <- legendLable[quantile(1:length(legendLable))]
-  legend(x=d[1]+1, y=10,legend=legendLable, cex=0.6, title="-log adj p-values",
-         fill=c(heat.colors(64)[64],
-           heat.colors(64)[48], heat.colors(64)[32],
-           heat.colors(64)[16], heat.colors(64)[1]))
-  axis(1, at=1:d[1], (rownames(fishers)), cex.axis=0.65)
-  axis(2, at=1:d[2], (colnames(fishers)), cex.axis=0.65)
-
-  # add the overlaps at each intersection of modules
-  for (i in 1:d[1]) {
-    for (j in 1:d[2]) {
-      text(x=i, y=j, labels = overlap[i,j], cex = 0.65)
-    }
-  }
-  return(list(fishLogMatrix, overlap))
-  ### returns fishers exact test -log pvalues and overlap matrix
-}
-
-
-compareNetworksWithFishersExactTestProcona <- function
+setMethod("compareNetworksWithFishersExactTestProcona",
+          signature(net1="proconaNet",
+                    net2="proconaNet",
+                    title="character"),
+          
+          function
 ### Convienence function for calling the compareNetworksWithFishersExactTest
 ### using only two procona objects.  Plot xlab and ylab is taken from procona obj.
-(netobj1, ##<< procona object for network 1
- netobj2, ##<< procona object for network 2
- title    ##<< plot title
-){
-  compareNetworksWithFishersExactTest(proconaPeptides(netobj1), proconaPeptides(netobj2),
-                                      proconaMergedColors(netobj1), proconaMergedColors(netobj2),
-                                      title)
-  ### returns the list of fisher -log pvalues, and overlaps between modules
-}
+          (net1, ##<< procona object for network 1
+           net2, ##<< procona object for network 2
+           title    ##<< plot title
+           ){
+              compareNetworksWithFishersExactTest(peptides(net1), peptides(net2),
+                                                  mergedColors(net1), mergedColors(net2),
+                                                  title)
+### returns the list of fisher -log pvalues, and overlaps between modules
+          })
 
 
 
