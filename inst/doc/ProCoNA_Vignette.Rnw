@@ -125,7 +125,7 @@ mergedColors(peptideNetwork)[1:5]
 
 The topological significance of network modules is shown by:
 <<Module Significance>>=
-peptideNetwork <- toPermTest(peptideNetwork)
+peptideNetwork <- toPermTest(peptideNetwork, 100)
 permtest(peptideNetwork)
 @ 
 
@@ -169,8 +169,8 @@ phenotype, the moduleData function below is used, provided below.
 phenotypeCor <- correlationWithPhenotypesHeatMap(net=peptideNetwork,
                                                  phenotypes=phenotypes[,1:5],
                                                  modules=1:5,                
-                                                 plotName=NULL, 
-                                                 title="new heatmap",
+                                                 plotName="my plot",
+                                                 title="snazzy heatmap",
                                                  textSize=0.7)
 
 pepcor <- moduleMemberCorrelations(pnet=peptideNetwork,

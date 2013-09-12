@@ -1,14 +1,13 @@
 
 
 setGeneric("modulePhenotypeCorrelations",
-           valueClass = "proconaNet",
            function(pnet, phenotypes) {
                standardGeneric("modulePhenotypeCorrelations")
            })
 
 setMethod("modulePhenotypeCorrelations",
           signature(pnet="proconaNet",
-                    phenotypes="character"),
+                    phenotypes="matrix"),
           
           function(pnet, phenotypes) {
                                        ### Computes the relation between the modules and
@@ -40,7 +39,6 @@ setMethod("modulePhenotypeCorrelations",
 
 
 setGeneric("moduleMemberCorrelations",
-           valueClass = "proconaNet",
            function(pnet, pepdat, phenotypes) {
                standardGeneric("moduleMemberCorrelations")
            })
@@ -48,10 +46,9 @@ setGeneric("moduleMemberCorrelations",
 setMethod("moduleMemberCorrelations",
           signature(pnet="proconaNet",
                     pepdat="matrix",
-                    phenotypes="character"),
+                    phenotypes="matrix"),
           
           function(pnet, pepdat, phenotypes) {
-
                                         # Code borrowed/repurposed from WGCNA tutorials
                                         # The following setting is important, do not omit.
               options(stringsAsFactors = FALSE);

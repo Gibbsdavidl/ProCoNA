@@ -83,104 +83,94 @@ corBootstrap <- function
 }
 
 
-setGeneric("bootstrapProconaNetwork",
-           valueClass = "proconaNet",
-           function(networkName, pepdat, pow, powMax, networkType, scaleFreeThreshold, deepSplit, minModuleSize,
-                    mergeThreshold, clusterType, pamRespectsDendro, performTOPermtest, toPermTestPermutes,
-                    bootstrapThreshold) {
-               standardGeneric("bootstrapProconaNetwork")
-           })
 
-setMethod("bootstrapProconaNetwork",
-          signature(networkName="character",  ##<< Name of this network
-                    pepdat="matrix",           ##<< This variable is the data set with rows as samples and cols as peptides
-                    pow="numeric",             ##<< The scaling power, NULL if unknown
-                    powMax="numeric",          ##<< The maximum power to be searched.
-                    networkType="character",   ##<< Whether the sign is considered in constructing adjacency and TOM
-                    scaleFreeThreshold="numeric",  ##<< The threshold for fitting to scale-free topology.. will use closest power.
-                    deepSplit="numeric",       ##<< Course grain control of module size
-                    minModuleSize="numeric",   ##<< The minimum module size allowed
-                    mergeThreshold="numeric",  ##<< Below this threshold, modules are merged.
-                    clusterType="character",   ##<< Clustering option
-                    pamRespectsDendro="logical", ##<< When cutting the dendrogram, pay attention to branch membership.
-                    performTOPermtest="logical", ##<< Performs permutation testing on modules
-                    toPermTestPermutes="numeric", ##<< Number of permutations to do.
-                    bootstrapThreshold="numeric"),   ##<< When we should stop resampling 
-          function(networkName, pepdat, pow,
-                   powMax, networkType, scaleFreeThreshold,
-                   deepSplit, minModuleSize,
-                   mergeThreshold, clusterType, pamRespectsDendro,
-                   performTOPermtest, toPermTestPermutes,
-                   bootstrapThreshold) {
 
-              #args <- as.list(match.call(expand.dots = TRUE)[-1])
-              #prebuild_check(args,pepdat)
+bootstrapProconaNetwork <- function
+### This function returns a peptide co-expression network object.
+(networkName="bootstrap procona",   ##<< Name of this network
+ pepdat=NULL,             ##<< This variable is the data set with rows as samples and cols as peptides
+ pow=NULL,                ##<< The scaling power, NULL if unknown
+ powMax=20,               ##<< The maximum power to be searched.
+ networkType="signed",    ##<< Whether the sign is considered in constructing adjacency and TOM
+ scaleFreeThreshold=0.8,  ##<< The threshold for fitting to scale-free topology.. will use closest power.
+ deepSplit = 2,           ##<< Course grain control of module size
+ minModuleSize=30,        ##<< The minimum module size allowed
+ mergeThreshold=0.1,      ##<< Below this threshold, modules are merged.
+ clusterType="average",   ##<< Clustering option
+ pamRespectsDendro=T,     ##<< When cutting the dendrogram, pay attention to branch membership.
+ performTOPermtest=TRUE,  ##<< Performs permutation testing on modules
+ toPermTestPermutes=100,  ##<< Number of permutations to do.
+ bootstrapThreshold=0.0001  ##<< When to stop resampling...
+ ){
 
-              print("Constructing New ProCoNA Object")
-              pnet <- new("proconaNet")
-              proconaVersion(pnet) <- proconaVersionFun()
-              networkName(pnet) <- networkName
-              networkType(pnet) <- networkType;
-              samples(pnet) <- rownames(pepdat)
-
-              print("Computing adjacency")
-              bootstrapCor <- corBootstrap(pepdat, networkType, bootstrapThreshold)
-              adj(pnet) <- bootstrapCor[[1]]
-              
-              if (is.null(pow)) {
-                  print("Computing soft threshold power")
-                  softThreshold <- pickSoftThreshold.fromSimilarity(adj(pnet),
-                                                                    powerVector=1:powMax,
-                                                                    RsquaredCut=scaleFreeThreshold,
-                                                                    networkType=networkType)
-                  networkPower(pnet)=softThreshold$powerEstimate
-              } else {
-                  networkPower(pnet)=pow
-              }
-              
-              cat("Using power: ", networkPower(pnet), "\n")
-              peptides(pnet)=colnames(pepdat)
-              adj(pnet) <- adj(pnet)^networkPower(pnet)
-              
-              print("Computing TOM")
-              TOM(pnet) = TOMsimilarity(adj(pnet), TOMType=networkType);
-              rownames(TOM(pnet)) <- peptides(pnet)
-              colnames(TOM(pnet)) <- peptides(pnet)
-              rownames(adj(pnet)) <- peptides(pnet)
-              colnames(adj(pnet)) <- peptides(pnet)
-              dissTOM = 1-TOM(pnet)
-              
-              print("Clustering")
-              pepTree(pnet) = flashClust(as.dist(dissTOM), method = clusterType);
-              dynamicColors(pnet) = cutreeDynamic(dendro = pepTree(pnet),
-                               distM = dissTOM,
-                               deepSplit = deepSplit,
-                               pamRespectsDendro = pamRespectsDendro,
-                               minClusterSize = minModuleSize);
-              print(table(dynamicColors(pnet)))
+                                        #args <- as.list(match.call(expand.dots = TRUE)[-1])
+                                        #prebuild_check(args,pepdat)
+    
+    print("Constructing New ProCoNA Object")
+    pnet <- new("proconaNet")
+    proconaVersion(pnet) <- proconaVersionFun()
+    networkName(pnet) <- networkName
+    networkType(pnet) <- networkType;
+    samples(pnet) <- rownames(pepdat)
+    
+    print("Computing adjacency")
+    bootstrapCor <- corBootstrap(pepdat, networkType, bootstrapThreshold)
+    adj(pnet) <- bootstrapCor[[1]]
+    
+    if (is.null(pow)) {
+        print("Computing soft threshold power")
+        softThreshold <- pickSoftThreshold.fromSimilarity(adj(pnet),
+                                                          powerVector=1:powMax,
+                                                          RsquaredCut=scaleFreeThreshold,
+                                                          networkType=networkType)
+        networkPower(pnet)=softThreshold$powerEstimate
+    } else {
+        networkPower(pnet)=pow
+    }
+    
+    cat("Using power: ", networkPower(pnet), "\n")
+    peptides(pnet)=colnames(pepdat)
+    adj(pnet) <- adj(pnet)^networkPower(pnet)
+    
+    print("Computing TOM")
+    TOM(pnet) = TOMsimilarity(adj(pnet), TOMType=networkType);
+    rownames(TOM(pnet)) <- peptides(pnet)
+    colnames(TOM(pnet)) <- peptides(pnet)
+    rownames(adj(pnet)) <- peptides(pnet)
+    colnames(adj(pnet)) <- peptides(pnet)
+    dissTOM = 1-TOM(pnet)
+    
+    print("Clustering")
+    pepTree(pnet) = flashClust(as.dist(dissTOM), method = clusterType);
+    dynamicColors(pnet) = cutreeDynamic(dendro = pepTree(pnet),
+                     distM = dissTOM,
+                     deepSplit = deepSplit,
+                     pamRespectsDendro = pamRespectsDendro,
+                     minClusterSize = minModuleSize);
+    print(table(dynamicColors(pnet)))
                                         #merging modules
-              print("Merging modules")
-              MEDissThres = mergeThreshold
-              MEList = moduleEigengenes(pepdat, colors = dynamicColors(pnet))
-              MEs(pnet) = MEList$eigengenes   # Calculate dissimilarity of module eigengenes
-              MEDiss = 1-cor(MEs(pnet))       # Cluster module eigengenes
-              METree = flashClust(as.dist(MEDiss),
-                  method = clusterType );      # Call an automatic merging function
-              merge = mergeCloseModules(pepdat, dynamicColors(pnet),
-                  cutHeight = MEDissThres, verbose = 4, relabel=T)    # The merged module colors
-              mergedColors(pnet) = merge$colors;     # Eigengenes of the new merged modules:
-              mergedMEs(pnet) = merge$newMEs;        # Construct numerical labels corresponding to the colors
-              colorOrder(pnet) = c("grey", standardColors(50));
-              
-              print("Topological Overlap Permutation Test On Modules")
-              if(performTOPermtest) {
-                  pnet <- toPermTest(pnet, toPermTestPermutes)
-              }
-              
-              print("Validating Object...")
-              #check_proconaNet(pnet)
-              
-              print("DONE!")
-              return(pnet)
+    print("Merging modules")
+    MEDissThres = mergeThreshold
+    MEList = moduleEigengenes(pepdat, colors = dynamicColors(pnet))
+    MEs(pnet) = MEList$eigengenes   # Calculate dissimilarity of module eigengenes
+    MEDiss = 1-cor(MEs(pnet))       # Cluster module eigengenes
+    METree = flashClust(as.dist(MEDiss),
+        method = clusterType );      # Call an automatic merging function
+    merge = mergeCloseModules(pepdat, dynamicColors(pnet),
+        cutHeight = MEDissThres, verbose = 4, relabel=T)    # The merged module colors
+    mergedColors(pnet) = merge$colors;     # Eigengenes of the new merged modules:
+    mergedMEs(pnet) = merge$newMEs;        # Construct numerical labels corresponding to the colors
+    colorOrder(pnet) = c("grey", standardColors(50));
+    
+    print("Topological Overlap Permutation Test On Modules")
+    if(performTOPermtest) {
+        pnet <- toPermTest(pnet, toPermTestPermutes)
+    }
+    
+    print("Validating Object...")
+                                        #check_proconaNet(pnet)
+    
+    print("DONE!")
+    return(pnet)
 ### returns the procona network object
-          })
+}

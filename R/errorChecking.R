@@ -68,7 +68,7 @@ check_proconaNet <- function
 }
 
 
-setValidity("proconaNet", check_proconaNet)
+#setValidity("proconaNet", check_proconaNet)
 
 
 

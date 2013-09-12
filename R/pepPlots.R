@@ -31,8 +31,8 @@ setMethod("correlationWithPhenotypesHeatMap",
 
           (net,              ##<< the peptide network object
            phenotypes,       ##<< matrix of phenotypic traits
-           modules = NULL,   ##<< the vector of modules to plot
-           plotName=NULL,    ##<< the name of the saved plot, NULL to show on screen
+           modules = c(),   ##<< the vector of modules to plot
+           plotName="",    ##<< the name of the saved plot, NULL to show on screen
            title="Module-trait relationships", ##<< plot main title
            textSize=0.4
            ) {

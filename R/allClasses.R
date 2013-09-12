@@ -54,7 +54,7 @@ setClass("proconaNet",
            mergedMEs=data.frame(),
            mergedColors=c(0),
            colorOrder="",
-           power=0,
+           power=1,
            networkType="",
            permtest=matrix()
            )
