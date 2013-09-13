@@ -15,13 +15,13 @@ buildProconaNetwork <- function
  pow=1,                   ##<< The scaling power, NULL if unknown
  powMax=20,               ##<< The maximum power to be searched.
  networkType="signed",    ##<< Whether the sign is considered in constructing adjacency and TOM
- pearson=F,               ##<< use Pearson's cor or the robust bi-weight correlation
+ pearson=FALSE,           ##<< use Pearson's cor or the robust bi-weight correlation
  scaleFreeThreshold=0.8,  ##<< The threshold for fitting to scale-free topology.. will use closest power.
  deepSplit = 2,           ##<< Course grain control of module size
  minModuleSize=30,        ##<< The minimum module size allowed
  mergeThreshold=0.1,      ##<< Below this threshold, modules are merged.
  clusterType="average",   ##<< Clustering option
- pamRespectsDendro=T,     ##<< When cutting the dendrogram, pay attention to branch membership.
+ pamRespectsDendro=TRUE,     ##<< When cutting the dendrogram, pay attention to branch membership.
  performTOPermtest=TRUE,  ##<< Performs permutation testing on modules
  toPermTestPermutes=100   ##<< Number of permutations to do.
  ) {
@@ -31,7 +31,7 @@ buildProconaNetwork <- function
     
     message("Constructing New ProCoNA Network Object")
 
-    if(class(pepdat) == "MSnSet") {
+    if (inherits(pepdat, "MSnSet")) {
         pepdat <- t(exprs(pepdat))
     }
 
@@ -101,7 +101,7 @@ buildProconaNetwork <- function
     METree = flashClust(as.dist(MEDiss),
         method = clusterType );      # Call an automatic merging function
     merge = mergeCloseModules(pepdat, dynamicColors(pnet),
-        cutHeight = MEDissThres, verbose = 4, relabel=T)    # The merged module colors
+        cutHeight = MEDissThres, verbose = 4, relabel=TRUE)    # The merged module colors
     mergedColors(pnet) = merge$colors;     # Eigengenes of the new merged modules:
     mergedMEs(pnet) = merge$newMEs;        # Construct numerical labels corresponding to the colors
     colorOrder(pnet) = c("grey", standardColors(50));
