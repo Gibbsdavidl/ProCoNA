@@ -333,17 +333,17 @@ setMethod("ppiPermTest",
               pi_edges <- pi_edges[!idx,]
               background <- unique(c(as.character(pi_edges[,1]),as.character(pi_edges[,2])))
                                         # background needs to match the peptides...
-              pep_background <- as.character(pepinfo[pepinfo[,pi_colName] %in% background, pep_id_colName])
+              pep_background <- as.character(pepinfo[pepinfo[,pi_colName] %in% background, pepColName])
               
               ## gather info about the network
-              modules <- mergedColors(pepnet)  
-              peps <- peptides(pepnet)
+              modules <- mergedColors(pnet)  
+              peps <- peptides(pnet)
               umodules <- unique(modules)
               pvals <- unique(modules)
               names(pvals) <- unique(modules)
               
                                         # calculate kme of network
-              MEs <- mergedMEs(pepnet)
+              MEs <- mergedMEs(pnet)
               kme <- signedKME(pepdat,MEs)
               rownames(kme) <- colnames(pepdat)
               
@@ -377,7 +377,7 @@ setMethod("ppiPermTest",
                   
                                         # get background and focus on relevant module probes within it
                   fpeps = intersect(fpeps,pep_background)
-                  fprots <- unique(as.character(pepinfo[pepinfo[,pep_id_colName] %in% fpeps, pi_colName]))
+                  fprots <- unique(as.character(pepinfo[pepinfo[,pepColName] %in% fpeps, pi_colName]))
                   print(paste("of these, ", length(fpeps), 
                               " are relevant to our PI network...", sep=""))
                   

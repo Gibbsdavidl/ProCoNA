@@ -78,19 +78,19 @@ setMethod("correlationWithPhenotypesHeatMap",
 
 
 setGeneric("MMvsPS",
-           function(net,pepdat, phenoVec, mod) {
+           function(pnet,pepdat, phenoVec, mod) {
                standardGeneric("MMvsPS")
            })
 
 setMethod("MMvsPS",
-          signature(net="proconaNet",
+          signature(pnet="proconaNet",
                     pepdat="matrix",
                     phenoVec="numeric",
                     mod="numeric"),
           function
 ### Plots the module membership against the peptide significance
 ### for a given trait and module
-          (net,      ##<< The procona network
+          (pnet,      ##<< The procona network
            pepdat,   ##<< the peptide data, with rows as samples and columns as peptides
            phenoVec, ##<< the phenotypic trait, vector
            mod       ##<< the module of interest
@@ -98,7 +98,7 @@ setMethod("MMvsPS",
               
               modme <- paste("ME",mod,sep="")
               
-              thesePeps <- which(mergedColors(net) == mod)
+              thesePeps <- which(mergedColors(pnet) == mod)
               pepnum <- length(thesePeps)
               message(pepnum, " peptides in module ", mod, "\n")
               

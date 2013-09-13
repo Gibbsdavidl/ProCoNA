@@ -14,13 +14,7 @@
 
 \begin{document}
 
-<<foo,include=FALSE,echo=FALSE>>=
-options(keep.source = TRUE, width = 70, stringsAsFactors=F, digits=2)
-foo <- packageDescription("ProCoNA")
-x <- capture.output(library(ProCoNA))
-@
-
-\title{ProCoNA: Protein Co-expression Network Analysis (Version \Sexpr{foo$Version})}
+\title{ProCoNA: Protein Co-expression Network Analysis}
 \author{David L Gibbs}
 \maketitle
 
@@ -46,6 +40,8 @@ missing values. We do that by taking peptides that are present in greater
 than 80\% of the samples. 
 
 <<Removing Missing Data>>=
+options(keep.source = TRUE, width = 70, stringsAsFactors=F, digits=2)
+library(ProCoNA)
 data(ProCoNA_Data)
 peptideData <- subsetPeptideData(peptideData, percentageNAsAllowed=0.2)
 dim(peptideData)
@@ -98,6 +94,7 @@ peptideNetwork <- buildProconaNetwork(networkName="my network",
                                       pow=beta$powerEstmate, 
                                       pearson=F, 
                                       toPermTestPermutes=1000)
+peptideNetwork
 @ 
 
 The peptideNetwork is a S4 object of class "proconaNet". The object

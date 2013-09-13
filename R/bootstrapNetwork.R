@@ -30,7 +30,7 @@ corBootstrap <- function
  tmpSaveFile = T          ##<< Should temporary saves be done?
  ){
   
-  check_corBootstrap(tmpSaveFile,networkType,threshold,dataMatrix)
+  #check_corBootstrap(tmpSaveFile,networkType,threshold,dataMatrix)
   
   n           <- ncol(dataMatrix)
   Mk          <- mat.or.vec(n,n)
