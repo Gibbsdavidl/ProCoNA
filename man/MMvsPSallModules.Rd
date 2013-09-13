@@ -2,7 +2,7 @@
 \alias{MMvsPSallModules}
 \title{MMvsPSallModules}
 \description{Call MMvsPS, producing plots for all modules.}
-\usage{MMvsPSallModules(net, peptable, phenoVec, prefixName = "mm_vs_ps_")}
+\usage{MMvsPSallModules(net, peptable, phenoVec, prefixName)}
 \arguments{
   \item{net}{The procona network object}
   \item{peptable}{The peptide data}

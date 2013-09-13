@@ -40,7 +40,8 @@ d2 n-d1-d2-m
 data(ProCoNA_Data)
 net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
 net2 <- buildProconaNetwork("peptide network", peptideData, pow=6)
-compareNetworksWithFishersExactTest(peptides(net1), peptides(net2), mergedColors(net1), mergedColors(net2))
+compareNetworksWithFishersExactTest(peptides(net1), peptides(net2),
+mergedColors(net1), mergedColors(net2), "network comparison", "net1", "net2")
 }
 
 \author{David L Gibbs}

@@ -30,9 +30,10 @@
 \value{returns the procona network object}
 
 \examples{
+
 data(ProCoNA_Data)
 net <- bootstrapProconaNetwork("peptide network", peptideData,
-performTOPermtest=F, bootstrapThreshold=0.1)
+performTOPermtest=FALSE, bootstrapThreshold=0.1)
 }
 \author{David L Gibbs}
 

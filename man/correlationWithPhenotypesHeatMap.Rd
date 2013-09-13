@@ -5,7 +5,7 @@
 \description{Plots a heatmap showing the Pearson correlation of modules with phenotypes.}
 
 \usage{correlationWithPhenotypesHeatMap(net, phenotypes, modules, 
-    plotName = NULL, title = "Module-trait relationships", textSize = 0.4)}
+    plotName, title, textSize)}
 
 \arguments{
   \item{net}{The ProCoNA network object.}
@@ -24,7 +24,7 @@ net <- buildProconaNetwork("pepnet", peptideData, pow=12)
 n <- length(samples(net))
 phenotypes <- matrix(rnorm(10*n), nrow=60)
 moduleCors <- correlationWithPhenotypesHeatMap(net, phenotypes, modules = 1:7, 
-    plot = NULL, title = "Module-trait relationships", textSize = 0.5)
+    plotName = "Phenotype Associations", title = "Module-trait relationships", textSize = 0.5)
 }
 \author{David L Gibbs}
 

@@ -20,7 +20,7 @@ data(ProCoNA_Data)
 net1 <- buildProconaNetwork("peptide network", peptideData)
 n <- length(samples(net1))
 phenotypes <- matrix(rnorm(10*n), nrow=60)
-pepcor <- moduleMemberCorrelations(net1, peptideMatrix, phenotypes)
+pepcor <- moduleMemberCorrelations(net1, peptideData, phenotypes)
 
 # To plot the heatmap: 
 # moduleCors <- correlationWithPhenotypesHeatMap(net1, phenotypes, modules = 1:5, 

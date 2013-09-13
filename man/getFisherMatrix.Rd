@@ -2,10 +2,10 @@
 \alias{getFisherMatrix}
 \title{getFisherMatrix}
 \description{Fisher's exact test pairwise on modules.}
-\usage{getFisherMatrix(net1, net2, colors1, colors2)}
+\usage{getFisherMatrix(peps1, peps2, colors1, colors2)}
 \arguments{
-  \item{net1}{Net1 list of entities in the network (nodes of network 1)}
-  \item{net2}{Net2 list of entities in the network (nodes of network 2)}
+  \item{peps1}{Names of entities in the network (nodes of network 1)}
+  \item{peps2}{Names of entities in the network (nodes of network 2)}
   \item{colors1}{the module assignments for network 1}
   \item{colors2}{the module assignments for network 2}
 }

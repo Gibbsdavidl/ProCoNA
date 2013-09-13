@@ -1,4 +1,5 @@
 \name{proconaNet-class}
+
 \Rdversion{1.1}
 \docType{class}
 \alias{proconaNet-class}
@@ -22,6 +23,7 @@
 \alias{permtest}
 \alias{pepnet-class}
 \alias{pepnet}
+\alias{networkPower}
 
 
 \title{proconaNet S4 class}

@@ -201,7 +201,7 @@ setMethod("compareNetworksWithFishersExactTestProcona",
            ){
               compareNetworksWithFishersExactTest(peptides(net1), peptides(net2),
                                                   mergedColors(net1), mergedColors(net2),
-                                                  title)
+                                                  title, networkName(net1), networkName(net2))
 ### returns the list of fisher -log pvalues, and overlaps between modules
           })
 

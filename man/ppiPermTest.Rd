@@ -4,7 +4,7 @@
 
 \description{Performs a permutation test for enrichment of PPI edges given a database. Peptides are selected from each module and mapped to potential protein parents in the mass tag database. We check if these proteins are found in the PPI network, and record any edges between them. This is compared to edges found using randomly selected proteins (taken from the mass tag database). A p-value is computed as the number of times the randomly sampled proteins incurred more edges than the observed proteins, divided by the number of iterations.}
 
-\usage{ppiPermTest(pepnet, pepdat, pepinfo, pep_id_colName, pi_colName, pi_edges,  
+\usage{ppiPermTest(pnet, pepdat, pepinfo, pepColName, pi_colName, pi_edges,  
    			   threshold, iterations)}
 
 \arguments{

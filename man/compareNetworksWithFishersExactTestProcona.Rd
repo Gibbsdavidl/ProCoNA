@@ -5,7 +5,7 @@
 \description{Convienence function for calling the compareNetworksWithFishersExactTest
 using only two procona objects.}
 
-\usage{compareNetworksWithFishersExactTestProcona(netobj1, netobj2, 
+\usage{compareNetworksWithFishersExactTestProcona(net1, net2, 
     title)}
 
 \arguments{
