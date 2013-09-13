@@ -39,8 +39,8 @@ setMethod("toPermTest",
                   size <- sum(idx)                # idx is boolean with length == peptides in module
                   x = 1:length(colors)            # indices to sample from
                   
-                  cat("Permuting module: ", color, "\n")
-                  cat("   dim of TOM: ", dim(tomSubset), "\n")
+                  message("Permuting module: ", color, "\n")
+                  message("   dim of TOM: ", dim(tomSubset), "\n")
                   
                                         # create null distribution
                   dist = vector("numeric", numPermutes+1)
@@ -96,7 +96,7 @@ setMethod("peptideConnectivityTest",
            ) {
               pepInfo = pepInfo[which(pepInfo[,pepCol] %in% peptides(pnet)),] 
               uProts  = unique(pepInfo[,protCol])  # The unique proteins in the network
-              cat(length(uProts), " number of proteins being investigated.\n")
+              message(length(uProts), " number of proteins being investigated.\n")
               connPeps = vector("numeric", length(uProts))  # peptides associated with uProt
               randPeps = vector("numeric", repsPerProt * length(uProts))  # random peptide connections
               i = 1
@@ -124,7 +124,7 @@ setMethod("peptideConnectivityTest",
                   names(connPeps)[i] <- p
                   i = i+1
               }
-              cat(numPeps, " number of peptides associated with these proteins.\n")
+              message(numPeps, " number of peptides associated with these proteins.\n")
               return(list(t.test(connPeps, randPeps), connPeps, randPeps))
 ### Returns a list of the connected peptides and the random samples.
           }
@@ -163,7 +163,7 @@ setMethod("peptideCorrelationTest",
                                         # The peps of interest for protein p
                   peps     <- pepinfo[which(pepinfo[,protCol] == p), pepCol]
                   pepidx   <- which(colnames(dat) %in% peps)
-                                        #cat("protein: ", p, " has ", length(peps), " peptides... ",
+                                        #message("protein: ", p, " has ", length(peps), " peptides... ",
                                         #length(pepidx), "are in the data.\n")
                   
                   if (length(pepidx) > 1) {
@@ -227,7 +227,7 @@ setMethod("goStatTest",
                   modegs <- modegs[-which(is.na(modegs))]
               }
               
-              cat("Number of peptides tested: ", length(modegs), "\n")
+              message("Number of peptides tested: ", length(modegs), "\n")
               
               params <- new("GOHyperGParams", geneIds = modegs,
                             universeGeneIds=universe[,2], ontology=onto,
@@ -284,7 +284,7 @@ setMethod("keggStatTest",
                   modkeggs <- modkeggs[!(is.na(modkeggs))]
               }
               
-              cat("Number of pathways found: ", length(modkeggs), "\n")
+              message("Number of pathways found: ", length(modkeggs), "\n")
               
               params <- new("KEGGHyperGParams", geneIds = modkeggs,
                             universeGeneIds=universe[,2],

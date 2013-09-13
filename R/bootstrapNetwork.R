@@ -69,7 +69,7 @@ corBootstrap <- function
     }
 
     if(tmpSaveFile == T && k%%500 == 0) {
-      cat("On resampling: ", k, "\n")
+      message("On resampling: ", k, "\n")
       save(list(runningMean, runningSD, (k-1)),
            file="Resampling_Temp_Save_File.rda")
     }
@@ -77,7 +77,7 @@ corBootstrap <- function
     k <- k+1
     gc();
   }
-  cat("All Done!", "Performed: ", k-1, " resamplings\n")
+  message("All Done!", "Performed: ", k-1, " resamplings\n")
   list(runningMean, runningSD, k-1)
   ### Returns a list of the mean matrix, sd matrix, and the number of resamplings done.
 }
@@ -128,7 +128,7 @@ bootstrapProconaNetwork <- function
         networkPower(pnet)=pow
     }
     
-    cat("Using power: ", networkPower(pnet), "\n")
+    message("Using power: ", networkPower(pnet), "\n")
     peptides(pnet)=colnames(pepdat)
     adj(pnet) <- adj(pnet)^networkPower(pnet)
     

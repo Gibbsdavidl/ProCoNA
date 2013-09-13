@@ -19,10 +19,10 @@ subsetPeptideData <- function
   if (is.null(numNAsAllowed)) {
     nasAllowed <- as.integer(percentageNAsAllowed * nrow(pepdat))
     littlePepdat <- pepdat[,which(naCount <= nasAllowed)]
-    cat("Removing peptides with more than ", nasAllowed, " missing data points\n")
+    message("Removing peptides with more than ", nasAllowed, " missing data points\n")
   } else {
     littlePepdat <- pepdat[,which(naCount <= numNAsAllowed)]
-    cat("Removing peptides with more than ", numNAsAllowed, " missing data points\n")
+    message("Removing peptides with more than ", numNAsAllowed, " missing data points\n")
   }
   return(littlePepdat)
 ### Returns the subset table.

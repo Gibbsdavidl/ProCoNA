@@ -85,7 +85,7 @@ prebuild_check <- function
   } 
 
   for (x in names(args)) {
-      cat("Checking ", x, "\n")
+      message("Checking ", x, "\n")
       switch(x,
              networkType = if (args$networkType != "signed" || args$networkType != "unsigned") {
                  stop("networkType is a character string: \"signed\" or \"unsigned\"")
