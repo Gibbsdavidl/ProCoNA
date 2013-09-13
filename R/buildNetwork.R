@@ -58,7 +58,7 @@ buildProconaNetwork <- function
     } else {
         networkPower(pnet)=pow
     }
-    cat("Using power: ", networkPower(pnet), "\n")
+    message("Using power: ", networkPower(pnet), "\n")
     peptides(pnet)=colnames(pepdat)
     
     message("Computing adjacency")
