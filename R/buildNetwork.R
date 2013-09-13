@@ -53,7 +53,7 @@ buildProconaNetwork <- function
         }
         networkPower(pnet)=softThreshold$powerEstimate
         if(is.na(networkPower(pnet))) {
-            error("Power Not Found!")
+            stop("Power Not Found!")
         }
     } else {
         networkPower(pnet)=pow
