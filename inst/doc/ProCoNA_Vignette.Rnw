@@ -40,7 +40,7 @@ missing values. We do that by taking peptides that are present in greater
 than 80\% of the samples. 
 
 <<Removing Missing Data>>=
-options(keep.source = TRUE, width = 70, stringsAsFactors=F, digits=2)
+options(keep.source = TRUE, width = 70, stringsAsFactors=FALSE, digits=2)
 library(ProCoNA)
 data(ProCoNA_Data)
 peptideData <- subsetPeptideData(peptideData, percentageNAsAllowed=0.2)
@@ -92,7 +92,7 @@ peptideNetwork <- buildProconaNetwork(networkName="my network",
                                       pepdat=peptideData, 
                                       networkType="signed", 
                                       pow=beta$powerEstmate, 
-                                      pearson=F, 
+                                      pearson=FALSE, 
                                       toPermTestPermutes=1000)
 peptideNetwork
 @ 
@@ -191,11 +191,15 @@ moduleData <- function(pepnet, pepcors, module, pepinfo, fileprefix) {
 # moduleData(peptideNetwork, pepcor, 1, masstagdb, "Module_1")
 @ 
 
-In order to use this package, the data needed to be in a matrix form, with peptides (or proteins) in columns, and samples in rows. However, most MS data is not in this format. What to do!? One solution is to ues the MSnbase package in Bioconductor, we can read data, normalize it, summarize it by feature, and export a quantitative expression! Please note that ProCoNA requires input matrices to have samples in rows, which means the result of MSnbase::exprs must be transposed before use. Be sure to see RforProteomics for more information.
+
+\section{Running \texttt{ProCoNA} with the \texttt{MSnbase} infrastructure}
+
+In order to use this package, the data needed to be in a matrix form, with peptides (or proteins) in columns, and samples in rows. However, most MS data is not in this format. What to do!? One solution is to use the MSnbase package in Bioconductor, we can read data, normalize it, summarize it by feature, and export a quantitative expression! Consult the \texttt{MSnbase} vignette available with \texttt{vignette("MSnbase-demo", package = "MSnbase")} for more details. 
 
 <<Working from raw data.>>=
 library(MSnbase)
-file <- dir(system.file(package = "MSnbase", dir = "extdata"), full.names = TRUE, pattern = "mzXML$")
+file <- dir(system.file(package = "MSnbase", dir = "extdata"),
+            full.names = TRUE, pattern = "mzXML$")
 rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
 experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
 experiment <- trimMz(experiment, mzlim = c(112, 120))
@@ -208,12 +212,29 @@ qnt <- quantify(experiment,
 qnt.quant <- normalise(qnt, "quantiles")
 gb <- fData(qnt)$PeptideSequence
 qnt2 <- combineFeatures(qnt.quant, groupBy = gb, fun = "median")
-peptideData <- t(exprs(qnt2))
-
-# or you can pass the MSnbase object directly to the buildProconaNetwork method!
-# buildProconaNetwork(qnt2, ...) 
-
 @ 
+
+Similarly to the \texttt{subsetPeptideData} function above, it is easy to remove data with too many missing values in an \texttt{MSnSet} instance with the \texttt{filterNA} methods. The \texttt{pNA} argument controls the percentage of allowed \texttt{NA} values. Below we remove proteins with any \texttt{NA} but setting \texttt{pNA = 0.2} would have the same effect as the \texttt{subsetPeptideData(peptideData, percentageNAsAllowed=0.2)} call above. 
+
+
+<<filterna>>=
+sum(is.na(qnt2))
+qnt2 <- filterNA(qnt2, pNA = 0)
+sum(is.na(qnt2))
+@
+
+Finally, although one could extract (and transpose\footnote{Please note that ProCoNA requires input matrices to have samples in rows, which means the assay data matrix must be transposed before use.}) the expression data with \texttt{peptideData <- t(exprs(qnt2))}, it is possible to directly proceed with the standard ProCoNA analysis using an \texttt{MSnSet} instance:
+
+<<proconamsnset, eval = FALSE>>=
+peptideNetwork <- buildProconaNetwork(networkName="my network", 
+                                      pepdat=qnt2, 
+                                      networkType="signed", 
+                                      pow=beta$powerEstmate, 
+                                      pearson=FALSE, 
+                                      toPermTestPermutes=1000)
+@
+
+Be sure to see \texttt{RforProteomics} for more information about proteomics and R/Bioconductor.
 
 \begin{thebibliography}{}
 

@@ -1,5 +1,6 @@
 
 import(stats)
+import(BiocGenerics)
 importFrom(GOstats, hyperGTest)
 
 export(

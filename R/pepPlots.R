@@ -100,7 +100,7 @@ setMethod("MMvsPS",
               
               thesePeps <- which(mergedColors(pnet) == mod)
               pepnum <- length(thesePeps)
-              cat(pepnum, " peptides in module ", mod, "\n")
+              message(pepnum, " peptides in module ", mod, "\n")
               
               mmCors <- vector("numeric", pepnum)
               psCors <- vector("numeric", pepnum)
@@ -109,7 +109,7 @@ setMethod("MMvsPS",
               
               for (i in 1:pepnum) {
                   
-                  mmCors[i] <- abs(cor(dat[,i], mergedMEs(pnet)[,modme], use="pairwise.complete.obs"))
+                  mmCors[i] <- abs(cor(dat[,i], mergedMEs(net)[,modme], use="pairwise.complete.obs"))
                   psCors[i] <- abs(cor(dat[,i], phenoVec, use="pairwise.complete.obs"))
                   
               }
@@ -144,7 +144,7 @@ setMethod("MMvsPSallModules",
               mods <- unique(mergedColors(net))
               
               for (m in mods) {
-                  cat("Printing module: ", m, "\n")
+                  message("Printing module: ", m, "\n")
                   pdfName <- paste(prefixName, m, ".pdf", sep="")
                   pdf(pdfName)
                   MMvsPS(net, peptable, phenoVec, m)
