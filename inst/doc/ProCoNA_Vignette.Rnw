@@ -213,6 +213,9 @@ gb <- fData(qnt)$PeptideSequence
 qnt2 <- combineFeatures(qnt.quant, groupBy = gb, fun = "median")
 peptideData <- t(exprs(qnt2))
 
+# or you can pass the MSnbase object directly to the buildProconaNetwork method!
+# buildProconaNetwork(qnt2, ...) 
+
 @ 
 
 \begin{thebibliography}{}

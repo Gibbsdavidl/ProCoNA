@@ -1,4 +1,4 @@
-Package: procona
+Package: ProCoNA
 Type: Package
 Title: Protein co-expression network analysis (ProCoNA).
 Version: 0.99.1

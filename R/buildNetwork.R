@@ -8,7 +8,6 @@ proconaVersionFun <- function
 ### This function returns a peptide co-expression network object.
 
 
-
 ### This function returns a peptide co-expression network object.
 buildProconaNetwork <- function
 (networkName="ProCoNA",   ##<< Name of this network
@@ -31,6 +30,11 @@ buildProconaNetwork <- function
                                         #prebuild_check(args,pepdat)
     
     print("Constructing New ProCoNA Network Object")
+
+    if(class(pepdat) == "MSnSet") {
+        pepdat <- t(exprs(pepdat))
+    }
+
     pnet = new("proconaNet")
     proconaVersion(pnet) = proconaVersionFun()
     networkName(pnet)=networkName
@@ -113,6 +117,5 @@ buildProconaNetwork <- function
     return(pnet)
 ### returns the procona network object
 }
-
 
 

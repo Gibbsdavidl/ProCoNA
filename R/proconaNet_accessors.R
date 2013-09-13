@@ -134,3 +134,4 @@ setMethod("colorOrder", signature(x="proconaNet"), function(x) slot(x, "colorOrd
 setGeneric("colorOrder<-", function(x, value) standardGeneric("colorOrder<-"))
 setReplaceMethod("colorOrder", "proconaNet",
                  function(x, value) {x@colorOrder <- value; validObject(x); x})
+

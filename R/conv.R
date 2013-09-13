@@ -16,3 +16,9 @@ printNet <- function(object) {
   cat("  ProCoNA version   : ", proconaVersion(object), "\n")
 }
  
+
+setMethod('show', 'proconaNet', 
+          function(object){
+              printNet(object)
+          })
+
