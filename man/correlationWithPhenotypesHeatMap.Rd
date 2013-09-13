@@ -1,5 +1,6 @@
 \name{correlationWithPhenotypesHeatMap}
 \alias{correlationWithPhenotypesHeatMap}
+\alias{correlationWithPhenotypesHeatMap,proconaNet,matrix,numeric,character,character,numeric-method}
 \title{correlationWithPhenotypesHeatMap}
 
 \description{Plots a heatmap showing the Pearson correlation of modules with phenotypes.}
@@ -20,10 +21,10 @@
 
 \examples{
 data(ProCoNA_Data)
-net <- buildProconaNetwork("pepnet", peptideData, pow=12)
-n <- length(samples(net))
+#net1 <- buildProconaNetwork("pepnet", peptideData, pow=12)
+n <- length(samples(net1))
 phenotypes <- matrix(rnorm(10*n), nrow=60)
-moduleCors <- correlationWithPhenotypesHeatMap(net, phenotypes, modules = 1:7, 
+moduleCors <- correlationWithPhenotypesHeatMap(net1, phenotypes, modules = 1:7, 
     plotName = "Phenotype Associations", title = "Module-trait relationships", textSize = 0.5)
 }
 \author{David L Gibbs}

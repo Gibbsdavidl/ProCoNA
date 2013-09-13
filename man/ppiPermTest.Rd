@@ -1,5 +1,6 @@
 \name{ppiPermTest}
 \alias{ppiPermTest}
+\alias{ppiPermTest,proconaNet,matrix,data.frame,character,character,data.frame,numeric,numeric-method}
 \title{ppiPermTest}
 
 \description{Performs a permutation test for enrichment of PPI edges given a database. Peptides are selected from each module and mapped to potential protein parents in the mass tag database. We check if these proteins are found in the PPI network, and record any edges between them. This is compared to edges found using randomly selected proteins (taken from the mass tag database). A p-value is computed as the number of times the randomly sampled proteins incurred more edges than the observed proteins, divided by the number of iterations.}
@@ -22,7 +23,7 @@
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
 ppis <- data.frame(A=sample(masstagdb$Reference, 50), B=sample(masstagdb$Reference, 50))
 ppiPermTest(net1, peptideData, masstagdb, "Mass_Tag_ID", "Reference", ppis, 0.33, 100)
 }

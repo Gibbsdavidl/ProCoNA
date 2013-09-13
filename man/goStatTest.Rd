@@ -1,5 +1,6 @@
 \name{goStatTest}
 \alias{goStatTest}
+\alias{goStatTest,proconaNet,numeric,data.frame,character,character,character,character,character,numeric,logical-method}
 \title{goStatTest}
 
 \description{Wrapper function to run the hyperGTest from package GOstats, after mapping each peptide to an entrez ID.}
@@ -25,7 +26,7 @@
 \examples{
 \dontrun{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
 goStatTest(net1, 1, masstagdb, "Mass_Tag_ID", "Reference", universe, "BP", "org.Mm.eg.db", 0.005, FALSE)
 }
 }

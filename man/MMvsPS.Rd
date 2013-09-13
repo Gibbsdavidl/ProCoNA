@@ -1,6 +1,8 @@
 \name{MMvsPS}
 \alias{MMvsPS}
-\title{MMvsPS}
+\alias{MMvsPS,proconaNet,matrix,numeric,numeric-method}
+
+\title{Module members vs Peptide Significance}
 \description{Plots the module membership (correlation to eigenvector) against the peptide significance (correlation to phenotype) for a given trait and module}
 
 \usage{MMvsPS(pnet, pepdat, phenoVec, mod)}
@@ -17,7 +19,7 @@
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=13)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=13)
 MMvsPS(net1, peptideData, phenotypes[,5], 1)
 }
 \author{David L Gibbs}

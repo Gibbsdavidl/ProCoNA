@@ -12,7 +12,7 @@ bootstrapped matrix has converged to a final state.
 }
 
 \usage{corBootstrap(dataMatrix, networkType = "signed", threshold = 1e-04, 
-    tmpSaveFile = T)}
+    tmpSaveFile = TRUE)}
 
 \arguments{
   \item{dataMatrix}{Matrix with samples in rows and peptides (or other data type) in columns.}
@@ -26,7 +26,7 @@ bootstrapped matrix has converged to a final state.
 \examples{
 data(ProCoNA_Data)
 x <- peptideData[,1:10]
-y <- corBootstrap(dataMatrix=x, networkType="unsigned", threshold=0.05, tmpSaveFile=FALSE)
+y <- corBootstrap(dataMatrix=x, networkType="unsigned", threshold=0.1, tmpSaveFile=FALSE)
 }
 \author{David L Gibbs}
 

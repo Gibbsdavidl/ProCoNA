@@ -11,7 +11,7 @@
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData)
+#net1 <- buildProconaNetwork("peptide network", peptideData)
 plotNet(net1)
 }
 

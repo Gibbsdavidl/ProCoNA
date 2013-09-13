@@ -1,5 +1,6 @@
 \name{moduleMemberCorrelations}
 \alias{moduleMemberCorrelations}
+\alias{moduleMemberCorrelations,proconaNet,matrix,matrix-method}
 \title{moduleMemberCorrelations}
 
 \description{Computes the relation between peptides and eigenvector summaries
@@ -17,7 +18,7 @@ and also peptides and phenotypes.}
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData)
+#net1 <- buildProconaNetwork("peptide network", peptideData)
 n <- length(samples(net1))
 phenotypes <- matrix(rnorm(10*n), nrow=60)
 pepcor <- moduleMemberCorrelations(net1, peptideData, phenotypes)

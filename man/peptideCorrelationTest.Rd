@@ -1,5 +1,6 @@
 \name{peptideCorrelationTest}
 \alias{peptideCorrelationTest}
+\alias{peptideCorrelationTest,matrix,data.frame,character,character-method}
 \title{peptideCorrelationTest}
 
 \description{Take the data, and a mapping of peptides to

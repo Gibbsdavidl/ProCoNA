@@ -1,33 +1,14 @@
 \name{proconaNet-class}
-
 \Rdversion{1.1}
 \docType{class}
 \alias{proconaNet-class}
-
 \alias{proconaNet}
-\alias{proconaVersion}
-\alias{networkName}
-\alias{samples}
-\alias{adj}
-\alias{TOM}
-\alias{peptides}
-\alias{pepTree}
-\alias{dynamicColors}
-\alias{mergedColors}
-\alias{MEs}
-\alias{colorOrder}
-\alias{mergedMEs}
-\alias{colorOrder}
-\alias{power}
-\alias{networkType}
-\alias{permtest}
-\alias{pepnet-class}
-\alias{pepnet}
-\alias{networkPower}
 
+\alias{show,proconaNet-method}
+\alias{print,proconaNet-method}
 
 \title{proconaNet S4 class}
-\description{NA}
+\description{The main ProCoNA object - holder of data.}
 \section{Objects from the Class}{Objects can be created by calls of the form \code{new(proconaNet ...)}}
 \section{Slots}{
   \describe{
@@ -38,6 +19,7 @@
     \item{\code{samples}:}{The names of samples used in building the network. \code{"character"}}
     \item{\code{adj}:}{The adjacency matrix. \code{"matrix"}}
     \item{\code{TOM}:}{The topological overlap matrix or TOM. \code{"matrix"}}
+    \item{\code{TOM<-}:}{The topological overlap matrix or TOM. \code{"matrix"}}
     \item{\code{peptides}:}{The names of peptides used in the network,
       also the node names. \code{"character"}}
     \item{\code{pepTree}:}{The network dendrogram. \code{"hclust"}}
@@ -62,23 +44,10 @@
 }
 \section{Methods}{
   \describe{
-    \item{\code{modulePhenotypeCorrelations}:}{Correlating the module
-      summaries to phenotypes.}
-    \item{\code{moduleMemberCorrelations}:}{Correlations between modules.}
-    \item{\code{compareNetworksWithFishersExactTestProcona}:}{Comparing
-      two networks by module contents, pairwise between modules. }
-    \item{\code{correlationWithPhenotypesHeatMap}:}{Heatmap of
-      associations between modules and phenotypes.}
-    \item{\code{MMvsPS}:}{Module members vs (a given) Phenotypes }
-    \item{\code{MMvsPSallModules}:}{Module members vs all phenotypes.}
-    \item{\code{toPermTest}:}{The permutation test for topological connectivity.}
-    \item{\code{peptideConnectivityTest}:}{Test for connectivity among
-      peptides of a similar protein.}
-    \item{\code{peptideCorrelationTest}:}{Are peptides of a given protein
-      more correlated than peptides drawn at random?}
-    \item{\code{goStatTest}:}{GO term enrichment on modules.}
-    \item{\code{keggStatTest}:}{Kegg pathway enrichment on modules.}
-    \item{\code{ppiPermTest}:}{Protein-protein interaction enrichment on modules.}
+    \item{show}{\code{signature(x = "proconaNet")}: Shows info about the
+      network.}
+    \item{print}{\code{signature(x = "proconaNet")}: Prints info about the
+      network.}
   }
 }
 

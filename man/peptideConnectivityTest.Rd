@@ -1,5 +1,6 @@
 \name{peptideConnectivityTest}
 \alias{peptideConnectivityTest}
+\alias{peptideConnectivityTest,proconaNet,data.frame,character,character,numeric-method}
 \title{peptideConnectivityTest}
 
 \description{This function will compare the connectivity between
@@ -22,7 +23,7 @@ should be more connected than random.}
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
 p <- peptideConnectivityTest(net1, masstagdb, "Mass_Tag_ID", "Reference", 200)
 }
 

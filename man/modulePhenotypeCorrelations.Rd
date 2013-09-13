@@ -1,5 +1,6 @@
 \name{modulePhenotypeCorrelations}
 \alias{modulePhenotypeCorrelations}
+\alias{modulePhenotypeCorrelations,proconaNet,matrix-method}
 \title{modulePhenotypeCorrelations}
 
 \description{Computes the relation between the modules and
@@ -16,7 +17,7 @@ the phenotypes.}
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=13)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=13)
 n <- length(samples(net1))
 phenotypes <- matrix(rnorm(10*n), nrow=60)
 m <- modulePhenotypeCorrelations(net1, phenotypes)

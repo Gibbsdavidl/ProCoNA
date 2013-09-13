@@ -1,5 +1,6 @@
 \name{compareNetworksWithFishersExactTest}
 \alias{compareNetworksWithFishersExactTest}
+\alias{compareNetworksWithFishersExactTest,character,character,numeric,numeric,character,character,character-method}
 \title{compareNetworksWithFishersExactTest}
 \description{Fisher's exact test is used pairwise on modules to compare two networks. 
 The arguments to Fisher's exact test are given below.
@@ -38,8 +39,8 @@ d2 n-d1-d2-m
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
-net2 <- buildProconaNetwork("peptide network", peptideData, pow=6)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
+#net2 <- buildProconaNetwork("peptide network", peptideData, pow=6)
 compareNetworksWithFishersExactTest(peptides(net1), peptides(net2),
 mergedColors(net1), mergedColors(net2), "network comparison", "net1", "net2")
 }

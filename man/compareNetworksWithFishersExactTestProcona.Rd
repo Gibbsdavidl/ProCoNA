@@ -1,5 +1,6 @@
 \name{compareNetworksWithFishersExactTestProcona}
 \alias{compareNetworksWithFishersExactTestProcona}
+\alias{compareNetworksWithFishersExactTestProcona,proconaNet,proconaNet,character-method}
 \title{compareNetworksWithFishersExactTestProcona}
 
 \description{Convienence function for calling the compareNetworksWithFishersExactTest
@@ -18,8 +19,8 @@ using only two procona objects.}
 
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData)
-net2 <- buildProconaNetwork("peptide network", peptideData)
+#net1 <- buildProconaNetwork("peptide network", peptideData)
+#net2 <- buildProconaNetwork("peptide network", peptideData)
 compareNetworksWithFishersExactTestProcona(net1, net2, "new comparison")
 }
 

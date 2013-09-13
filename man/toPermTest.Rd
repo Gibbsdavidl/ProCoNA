@@ -1,5 +1,6 @@
 \name{toPermTest}
 \alias{toPermTest}
+\alias{toPermTest,proconaNet,numeric-method}
 \title{toPermTest}
 \description{Uses the procona network object,
 the data with peptides as columns, samples in rows.
@@ -18,7 +19,7 @@ observed provides the p-value.}
 \value{returns the network obj with the perm test}
 \examples{
 data(ProCoNA_Data)
-net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
+#net1 <- buildProconaNetwork("peptide network", peptideData, pow=12)
 toPermTest(net1, 100)
 }
 
