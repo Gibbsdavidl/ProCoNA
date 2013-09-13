@@ -27,7 +27,7 @@ corBootstrap <- function
 (dataMatrix,              ##<< This variable is the data set with rows as samples and cols as peptides
  networkType="signed",    ##<< Whether the sign is considered in constructing adjacency and TOM
  threshold = 0.0001,      ##<< When to stop running
- tmpSaveFile = T          ##<< Should temporary saves be done?
+ tmpSaveFile = TRUE          ##<< Should temporary saves be done?
  ){
   
   #check_corBootstrap(tmpSaveFile,networkType,threshold,dataMatrix)
@@ -42,7 +42,7 @@ corBootstrap <- function
   oldMean[1,1] <- 1
   k           <- 1
 
-  print("Resampling is ... GO!")  
+  message("Resampling is ... GO!")  
 
   while(any(abs(runningMean - oldMean) > threshold)) {
 
@@ -51,7 +51,7 @@ corBootstrap <- function
     oldSD <- runningSD
 
     # RESAMPLING #
-    resamp <- sample(1:nrow(dataMatrix), size=nrow(dataMatrix), replace=T)
+    resamp <- sample(1:nrow(dataMatrix), size=nrow(dataMatrix), replace=TRUE)
     dat <- dataMatrix[resamp,]
 
     # This Adjacency #    
@@ -68,7 +68,7 @@ corBootstrap <- function
       Sk <- x[[4]]
     }
 
-    if(tmpSaveFile == T && k%%500 == 0) {
+    if(tmpSaveFile && k%%500 == 0) {
       message("On resampling: ", k, "\n")
       save(list(runningMean, runningSD, (k-1)),
            file="Resampling_Temp_Save_File.rda")
@@ -106,19 +106,19 @@ bootstrapProconaNetwork <- function
                                         #args <- as.list(match.call(expand.dots = TRUE)[-1])
                                         #prebuild_check(args,pepdat)
     
-    print("Constructing New ProCoNA Object")
+    message("Constructing New ProCoNA Object")
     pnet <- new("proconaNet")
     proconaVersion(pnet) <- proconaVersionFun()
     networkName(pnet) <- networkName
     networkType(pnet) <- networkType;
     samples(pnet) <- rownames(pepdat)
     
-    print("Computing adjacency")
+    message("Computing adjacency")
     bootstrapCor <- corBootstrap(pepdat, networkType, bootstrapThreshold)
     adj(pnet) <- bootstrapCor[[1]]
     
     if (is.null(pow)) {
-        print("Computing soft threshold power")
+        message("Computing soft threshold power")
         softThreshold <- pickSoftThreshold.fromSimilarity(adj(pnet),
                                                           powerVector=1:powMax,
                                                           RsquaredCut=scaleFreeThreshold,
@@ -132,7 +132,7 @@ bootstrapProconaNetwork <- function
     peptides(pnet)=colnames(pepdat)
     adj(pnet) <- adj(pnet)^networkPower(pnet)
     
-    print("Computing TOM")
+    message("Computing TOM")
     TOM(pnet) = TOMsimilarity(adj(pnet), TOMType=networkType);
     rownames(TOM(pnet)) <- peptides(pnet)
     colnames(TOM(pnet)) <- peptides(pnet)
@@ -140,7 +140,7 @@ bootstrapProconaNetwork <- function
     colnames(adj(pnet)) <- peptides(pnet)
     dissTOM = 1-TOM(pnet)
     
-    print("Clustering")
+    message("Clustering")
     pepTree(pnet) = flashClust(as.dist(dissTOM), method = clusterType);
     dynamicColors(pnet) = cutreeDynamic(dendro = pepTree(pnet),
                      distM = dissTOM,
@@ -149,7 +149,7 @@ bootstrapProconaNetwork <- function
                      minClusterSize = minModuleSize);
     print(table(dynamicColors(pnet)))
                                         #merging modules
-    print("Merging modules")
+    message("Merging modules")
     MEDissThres = mergeThreshold
     MEList = moduleEigengenes(pepdat, colors = dynamicColors(pnet))
     MEs(pnet) = MEList$eigengenes   # Calculate dissimilarity of module eigengenes
@@ -162,15 +162,15 @@ bootstrapProconaNetwork <- function
     mergedMEs(pnet) = merge$newMEs;        # Construct numerical labels corresponding to the colors
     colorOrder(pnet) = c("grey", standardColors(50));
     
-    print("Topological Overlap Permutation Test On Modules")
+    message("Topological Overlap Permutation Test On Modules")
     if(performTOPermtest) {
         pnet <- toPermTest(pnet, toPermTestPermutes)
     }
     
-    print("Validating Object...")
+    message("Validating Object...")
                                         #check_proconaNet(pnet)
     
-    print("DONE!")
+    message("DONE!")
     return(pnet)
 ### returns the procona network object
 }
