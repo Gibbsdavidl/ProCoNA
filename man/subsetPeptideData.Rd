@@ -12,7 +12,7 @@
 \value{Returns a matrix.}
 \examples{
 data(ProCoNA_Data)
-subsetPeptideData(peptideMatrix, percentageNAsAllowed=0.2)
+subsetPeptideData(peptideData, percentageNAsAllowed=0.2)
 }
 \author{David L Gibbs}
 

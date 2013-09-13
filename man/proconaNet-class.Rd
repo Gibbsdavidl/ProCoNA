@@ -8,7 +8,7 @@
 \alias{proconaVersion}
 \alias{networkName}
 \alias{samples}
-\alias{adjacency}
+\alias{adj}
 \alias{TOM}
 \alias{peptides}
 \alias{pepTree}

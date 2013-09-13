@@ -2,10 +2,10 @@
 \alias{buildProconaNetwork}
 \title{buildProconaNetwork}
 \description{This function returns a peptide co-expression network object.}
-\usage{buildProconaNetwork(networkName = "ProCoNA", pepdat, pow, 
-    powMax = 20, networkType = "signed", pearson = F, scaleFreeThreshold = 0.8, 
+\usage{buildProconaNetwork(networkName = "ProCoNA", pepdat, pow=1, 
+    powMax = 20, networkType = "signed", pearson = FALSE, scaleFreeThreshold = 0.8, 
     deepSplit = 2, minModuleSize = 30, mergeThreshold = 0.1, 
-    clusterType = "average", pamRespectsDendro = T, performTOPermtest = TRUE, 
+    clusterType = "average", pamRespectsDendro = TRUE, performTOPermtest = TRUE, 
     toPermTestPermutes = 100)}
 \arguments{
   \item{networkName}{Name of this network}

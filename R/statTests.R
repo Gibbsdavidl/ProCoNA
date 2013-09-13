@@ -69,6 +69,8 @@ setMethod("toPermTest",
 
 
 
+
+
 setGeneric("peptideConnectivityTest",
            function(pnet,pepInfo,pepCol,protCol,repsPerProt) {
                standardGeneric("peptideConnectivityTest")
@@ -77,8 +79,8 @@ setGeneric("peptideConnectivityTest",
 setMethod("peptideConnectivityTest",
           signature(pnet="proconaNet",
                     pepInfo="data.frame",
-                    pepCol="numeric",
-                    protCol="numeric",
+                    pepCol="character",
+                    protCol="character",
                     repsPerProt="numeric"
                     ),
           
@@ -132,6 +134,8 @@ setMethod("peptideConnectivityTest",
 
 
 
+
+
 setGeneric("peptideCorrelationTest",
            function(dat,pepinfo,pepCol,protCol){
                standardGeneric("peptideCorrelationTest")
@@ -140,8 +144,8 @@ setGeneric("peptideCorrelationTest",
 setMethod("peptideCorrelationTest",
           signature(dat="matrix",
                     pepinfo="data.frame",
-                    pepCol="numeric",
-                    protCol="numeric"
+                    pepCol="character",
+                    protCol="character"
                     ),
           function
 ### Take the data, and a mapping of peptides to
@@ -181,6 +185,7 @@ setMethod("peptideCorrelationTest",
 
 
 
+
 setGeneric("goStatTest",
            function(pnet, module,pepinfo,pepColName,protColName,
                     universe,onto,annot,pvalue,cond) {
@@ -191,8 +196,8 @@ setMethod("goStatTest",
           signature(pnet="proconaNet",
                     module="numeric",
                     pepinfo="data.frame",
-                    pepColName="numeric",
-                    protColName="numeric",
+                    pepColName="character",
+                    protColName="character",
                     universe="character",
                     onto="character",
                     annot="character",
@@ -239,6 +244,11 @@ setMethod("goStatTest",
           })
 
 
+
+
+
+
+
 setGeneric("keggStatTest",
            function(pnet,module,pepinfo,pepColName,protColName,
                     universe,onto,annot,pvalue,cond) {
@@ -249,8 +259,8 @@ setMethod("keggStatTest",
           signature(pnet="proconaNet",
                     module="numeric",
                     pepinfo="data.frame",
-                    pepColName="numeric",
-                    protColName="numeric",
+                    pepColName="character",
+                    protColName="character",
                     universe="character",
                     onto="character",
                     annot="character",
@@ -297,6 +307,8 @@ setMethod("keggStatTest",
 
 
 
+
+
 setGeneric("ppiPermTest",
            function(pnet,pepdat,pepinfo,pepColName,
                     pi_colName, pi_edges, threshold, iterations) {
@@ -307,9 +319,9 @@ setMethod("ppiPermTest",
           signature(pnet="proconaNet",
                     pepdat="matrix",
                     pepinfo="data.frame",
-                    pepColName="numeric",
-                    pi_colName="numeric",
-                    pi_edges="numeric",
+                    pepColName="character",
+                    pi_colName="character",
+                    pi_edges="data.frame",
                     threshold="numeric",
                     iterations="numeric"
                     ),

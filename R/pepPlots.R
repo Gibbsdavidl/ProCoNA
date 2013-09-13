@@ -109,7 +109,7 @@ setMethod("MMvsPS",
               
               for (i in 1:pepnum) {
                   
-                  mmCors[i] <- abs(cor(dat[,i], mergedMEs(net)[,modme], use="pairwise.complete.obs"))
+                  mmCors[i] <- abs(cor(dat[,i], mergedMEs(pnet)[,modme], use="pairwise.complete.obs"))
                   psCors[i] <- abs(cor(dat[,i], phenoVec, use="pairwise.complete.obs"))
                   
               }
