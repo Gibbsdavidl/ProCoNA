@@ -16,8 +16,8 @@
 
 <<foo,include=FALSE,echo=FALSE>>=
 options(keep.source = TRUE, width = 70, stringsAsFactors=F, digits=2)
-foo <- packageDescription("procona")
-x <- capture.output(library(procona))
+foo <- packageDescription("ProCoNA")
+x <- capture.output(library(ProCoNA))
 @
 
 \title{ProCoNA: Protein Co-expression Network Analysis (Version \Sexpr{foo$Version})}
