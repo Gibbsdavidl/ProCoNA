@@ -9,8 +9,8 @@ using only two procona objects.}
     title)}
 
 \arguments{
-  \item{netobj1}{procona object for network 1}
-  \item{netobj2}{procona object for network 2}
+  \item{net1}{procona object for network 1}
+  \item{net2}{procona object for network 2}
   \item{title}{plot title}
 }
 

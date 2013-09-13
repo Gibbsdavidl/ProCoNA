@@ -18,12 +18,12 @@ d2 n-d1-d2-m
 
 }
 
-\usage{compareNetworksWithFishersExactTest(net1, net2, colors1, colors2, 
+\usage{compareNetworksWithFishersExactTest(peps1, peps2, colors1, colors2, 
     title = "", net1label = "", net2label = "")}
 
 \arguments{
-  \item{net1}{Nodes in network 1, character vector}
-  \item{net2}{Nodes in network 2, character vector}
+  \item{peps1}{Nodes in network 1, character vector}
+  \item{peps2}{Nodes in network 2, character vector}
   \item{colors1}{modules for net 1}
   \item{colors2}{modules for net 2}
   \item{title}{Plot title}

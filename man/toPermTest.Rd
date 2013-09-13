@@ -9,7 +9,7 @@ Modules are permuted and mean topological overlap
 is recorded, constructing the null.  The number
 of random permutations with mean TO greater than
 observed provides the p-value.}
-\usage{toPermTest(pnet, numPermutes = 100)}
+\usage{toPermTest(pnet, numPermutes)}
 \arguments{
   \item{pnet}{ProCoNA network object.}
   \item{numPermutes}{The number of permutations to perform}

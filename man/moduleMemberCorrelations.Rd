@@ -28,15 +28,15 @@ pepcor <- moduleMemberCorrelations(net1, peptideMatrix, phenotypes)
 
 #########################################################################
 # quick function to write out the tables for specific modules.
-moduleData <- function(pepnet, pepcors, module, pepinfo, fileprefix) {
-  moduleX <- pepnet@peptides[which(pepnet@mergedColors==module)]
-  moduleInfo <- pepinfo[which(pepinfo$Mass_Tag_ID %in% moduleX),]
-  moduleCors <- pepcors[which(pepcors$Module==module),]
-  corname <- paste(fileprefix, "_correlations.csv", sep="")
-  write.table(moduleCors, file=corname, sep=",", row.names=F)
-  infoname <- paste(fileprefix, "_peptide_info.csv", sep="")
-  write.table(moduleInfo, file=infoname, sep=",", row.names=F)
-}
+#moduleData <- function(pepnet, pepcors, module, pepinfo, fileprefix) {
+#  moduleX <- pepnet@peptides[which(pepnet@mergedColors==module)]
+#  moduleInfo <- pepinfo[which(pepinfo$Mass_Tag_ID %in% moduleX),]
+#  moduleCors <- pepcors[which(pepcors$Module==module),]
+#  corname <- paste(fileprefix, "_correlations.csv", sep="")
+#  write.table(moduleCors, file=corname, sep=",", row.names=F)
+#  infoname <- paste(fileprefix, "_peptide_info.csv", sep="")
+#  write.table(moduleInfo, file=infoname, sep=",", row.names=F)
+#}
 ########################################################################
 
 # WRITE OUT A TABLE WITH THE BELOW FUNCTION CALL  :)#

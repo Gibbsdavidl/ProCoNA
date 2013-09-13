@@ -3,10 +3,10 @@
 \title{MMvsPS}
 \description{Plots the module membership (correlation to eigenvector) against the peptide significance (correlation to phenotype) for a given trait and module}
 
-\usage{MMvsPS(net, pepdat, phenoVec, mod)}
+\usage{MMvsPS(pnet, pepdat, phenoVec, mod)}
 
 \arguments{
-  \item{net}{The procona network}
+  \item{pnet}{The procona network}
   \item{pepdat}{the peptide data, with rows as samples and columns as peptides}
   \item{phenoVec}{the phenotypic trait, vector}
   \item{mod}{the module of interest}

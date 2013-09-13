@@ -158,7 +158,7 @@ setMethod("compareNetworksWithFishersExactTest",
               b <- seq(from=0, to=1, length=65)
               par( mar=c(5,5,5,7), xpd=T)
               image(x=1:d[1], y=1:d[2], z=fishLog, col=heat.colors(64), breaks=b, main=title,
-                    xlab = peps1label, ylab=net2label, axes=F)
+                    xlab = net1label, ylab=net2label, axes=F)
               
                                         # add a legend with 5 levels ... legendLable == "legend label"
               legendLable <- names(table(logLevels))
