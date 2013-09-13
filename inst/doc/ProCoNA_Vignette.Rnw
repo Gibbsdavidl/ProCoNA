@@ -194,7 +194,7 @@ moduleData <- function(pepnet, pepcors, module, pepinfo, fileprefix) {
 
 \section{Running \texttt{ProCoNA} with the \texttt{MSnbase} infrastructure}
 
-In order to use this package, the data needed to be in a matrix form, with peptides (or proteins) in columns, and samples in rows. However, most MS data is not in this format. What to do!? One solution is to use the MSnbase package in Bioconductor, we can read data, normalize it, summarize it by feature, and export a quantitative expression! Please note that ProCoNA requires input matrices to have samples in rows, which means the result of MSnbase::exprs must be transposed before use. Be sure to see RforProteomics for more information.
+In order to use this package, the data needed to be in a matrix form, with peptides (or proteins) in columns, and samples in rows. However, most MS data is not in this format. What to do!? One solution is to use the MSnbase package in Bioconductor, we can read data, normalize it, summarize it by feature, and export a quantitative expression! Consult the \texttt{MSnbase} vignette available with \texttt{vignette("MSnbase-demo", package = "MSnbase")} for more details. 
 
 <<Working from raw data.>>=
 library(MSnbase)
@@ -223,7 +223,7 @@ qnt2 <- filterNA(qnt2, pNA = 0)
 sum(is.na(qnt2))
 @
 
-Finally, although one could extract (and transpose) the expression data with \texttt{peptideData <- t(exprs(qnt2))}, it is possible to directly proceed with the standard ProCoNA analysis using an \texttt{MSnSet} instance:
+Finally, although one could extract (and transpose\footnote{Please note that ProCoNA requires input matrices to have samples in rows, which means the assay data matrix must be transposed before use.}) the expression data with \texttt{peptideData <- t(exprs(qnt2))}, it is possible to directly proceed with the standard ProCoNA analysis using an \texttt{MSnSet} instance:
 
 <<proconamsnset, eval = FALSE>>=
 peptideNetwork <- buildProconaNetwork(networkName="my network", 
@@ -234,6 +234,7 @@ peptideNetwork <- buildProconaNetwork(networkName="my network",
                                       toPermTestPermutes=1000)
 @
 
+Be sure to see \texttt{RforProteomics} for more information about proteomics and R/Bioconductor.
 
 \begin{thebibliography}{}
 
