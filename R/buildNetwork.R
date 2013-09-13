@@ -29,7 +29,7 @@ buildProconaNetwork <- function
                                         #args <- as.list(match.call(expand.dots = TRUE)[-1])
                                         #prebuild_check(args,pepdat)
     
-    print("Constructing New ProCoNA Network Object")
+    message("Constructing New ProCoNA Network Object")
 
     if(class(pepdat) == "MSnSet") {
         pepdat <- t(exprs(pepdat))
@@ -41,7 +41,7 @@ buildProconaNetwork <- function
     networkType(pnet)=networkType
     samples(pnet)=rownames(pepdat)
     if (is.null(pow)) {
-        print("Computing soft threshold power")
+        message("Computing soft threshold power")
         if(pearson) {
             softThreshold <- pickSoftThreshold(pepdat, powerVector=1:powMax,
                                                RsquaredCut=scaleFreeThreshold,
@@ -53,8 +53,7 @@ buildProconaNetwork <- function
         }
         networkPower(pnet)=softThreshold$powerEstimate
         if(is.na(networkPower(pnet))) {
-            print("Power Not Found!")
-            return(NULL)
+            error("Power Not Found!")
         }
     } else {
         networkPower(pnet)=pow
@@ -62,7 +61,7 @@ buildProconaNetwork <- function
     cat("Using power: ", networkPower(pnet), "\n")
     peptides(pnet)=colnames(pepdat)
     
-    print("Computing adjacency")
+    message("Computing adjacency")
     if (pearson) {
         adj(pnet) <- adjacency(datExpr=pepdat,
                                power=networkPower(pnet),
@@ -76,7 +75,7 @@ buildProconaNetwork <- function
                                corOptions="use='pairwise.complete.obs'")
     }
     
-    print("Computing TOM")
+    message("Computing TOM")
     TOM(pnet) = TOMsimilarity(adj(pnet), TOMType=networkType);
     rownames(TOM(pnet)) <- peptides(pnet)
     colnames(TOM(pnet)) <- peptides(pnet)
@@ -84,7 +83,7 @@ buildProconaNetwork <- function
     colnames(adj(pnet)) <- peptides(pnet)
     dissTOM = 1-TOM(pnet)
     
-    print("Clustering")
+    message("Clustering")
     pepTree(pnet) = flashClust(as.dist(dissTOM), method = clusterType);
     dynamicColors(pnet) = cutreeDynamic(dendro = pepTree(pnet),
                      distM = dissTOM,
@@ -93,7 +92,7 @@ buildProconaNetwork <- function
                      minClusterSize = minModuleSize);
     print(table(dynamicColors(pnet)))
                                         #merging modules
-    print("Merging modules")
+    message("Merging modules")
     MEDissThres = mergeThreshold
     MEList = moduleEigengenes(pepdat, colors = dynamicColors(pnet),
         softPower=networkPower(pnet))
@@ -107,12 +106,12 @@ buildProconaNetwork <- function
     mergedMEs(pnet) = merge$newMEs;        # Construct numerical labels corresponding to the colors
     colorOrder(pnet) = c("grey", standardColors(50));
     
-    print("Topological Overlap Permutation Test On Modules")
+    message("Topological Overlap Permutation Test On Modules")
     if(performTOPermtest) {
         pnet <- toPermTest(pnet, toPermTestPermutes)
     }
     
-    print("DONE!")
+    message("DONE!")
     validObject(pnet)
     return(pnet)
 ### returns the procona network object
