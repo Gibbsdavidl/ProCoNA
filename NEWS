@@ -1,0 +1,11 @@
+
+
+Update 0.99.1 
+Sept 13, 2013
++++ Major update ... moved to S4 methods (getters, setters, setMethods, etc).
++++ Smaller sample data set for quick example runs in the man pages.
++++ Integration with the MSnbase package.
+      See the vignette for an example of raw data processing in preparation for network building.
+      The main buildProconaNetwork function now takes either matrices of peptide data, or MSnSet objects
+      containing data.
++++ Man pages relating to the main proconaNet object have been combined.
