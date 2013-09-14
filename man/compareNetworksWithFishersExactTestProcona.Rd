@@ -18,10 +18,12 @@ using only two procona objects.}
 \value{Returns a list of fisher -log pvalues, and overlaps between modules.}
 
 \examples{
+\dontrun{
 data(ProCoNA_Data)
 #net1 <- buildProconaNetwork("peptide network", peptideData)
 #net2 <- buildProconaNetwork("peptide network", peptideData)
 compareNetworksWithFishersExactTestProcona(net1, net2, "new comparison")
+}
 }
 
 \author{David L Gibbs}

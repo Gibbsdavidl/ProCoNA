@@ -97,20 +97,13 @@ setMethod("getFisherMatrix",
 })
 
 
-setGeneric("compareNetworksWithFishersExactTest",
-           function(peps1,peps2,colors1,colors2, title, net1label, net2label) {
-               standardGeneric("compareNetworksWithFishersExactTest")
-           })
+#           signature=c("character","character","numeric","numeric",
+#               "character","character","character"),
+         
 
-setMethod("compareNetworksWithFishersExactTest",
-          signature(peps1="character",
-                    peps2="character",
-                    colors1="numeric",
-                    colors2="numeric",
-                    title="character",
-                    net1label="character",
-                    net2label="character"),
-          function
+
+setGeneric("compareNetworksWithFishersExactTest",
+           function
 ### This makes the heatmap of agreement betewen networks, module-wise,
 ### by comparing each using Fisher's exact test where...
 ### n == number of entities in the network
@@ -183,28 +176,14 @@ setMethod("compareNetworksWithFishersExactTest",
 
 
 setGeneric("compareNetworksWithFishersExactTestProcona",
+ #          signature=c("proconaNet",
+ #              "proconaNet",
+ #              "character"),
            function(net1,net2,title) {
-               standardGeneric("compareNetworksWithFishersExactTestProcona")
+           #    standardGeneric("compareNetworksWithFishersExactTestProcona")
+               compareNetworksWithFishersExactTest(peptides(net1), peptides(net2),
+                                                   mergedColors(net1), mergedColors(net2),
+                                                   title, networkName(net1), networkName(net2))
+
            })
-
-setMethod("compareNetworksWithFishersExactTestProcona",
-          signature(net1="proconaNet",
-                    net2="proconaNet",
-                    title="character"),
-          
-          function
-### Convienence function for calling the compareNetworksWithFishersExactTest
-### using only two procona objects.  Plot xlab and ylab is taken from procona obj.
-          (net1, ##<< procona object for network 1
-           net2, ##<< procona object for network 2
-           title    ##<< plot title
-           ){
-              compareNetworksWithFishersExactTest(peptides(net1), peptides(net2),
-                                                  mergedColors(net1), mergedColors(net2),
-                                                  title, networkName(net1), networkName(net2))
-### returns the list of fisher -log pvalues, and overlaps between modules
-          })
-
-
-
 
