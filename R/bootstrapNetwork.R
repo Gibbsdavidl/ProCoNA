@@ -112,6 +112,7 @@ bootstrapProconaNetwork <- function
     networkName(pnet) <- networkName
     networkType(pnet) <- networkType;
     samples(pnet) <- rownames(pepdat)
+    peptides(pnet)=colnames(pepdat)
     
     message("Computing adjacency")
     bootstrapCor <- corBootstrap(pepdat, networkType, bootstrapThreshold)
@@ -129,7 +130,6 @@ bootstrapProconaNetwork <- function
     }
     
     message("Using power: ", networkPower(pnet), "\n")
-    peptides(pnet)=colnames(pepdat)
     adj(pnet) <- adj(pnet)^networkPower(pnet)
     
     message("Computing TOM")

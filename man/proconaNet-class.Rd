@@ -19,7 +19,6 @@
     \item{\code{samples}:}{The names of samples used in building the network. \code{"character"}}
     \item{\code{adj}:}{The adjacency matrix. \code{"matrix"}}
     \item{\code{TOM}:}{The topological overlap matrix or TOM. \code{"matrix"}}
-    \item{\code{TOM<-}:}{The topological overlap matrix or TOM. \code{"matrix"}}
     \item{\code{peptides}:}{The names of peptides used in the network,
       also the node names. \code{"character"}}
     \item{\code{pepTree}:}{The network dendrogram. \code{"hclust"}}

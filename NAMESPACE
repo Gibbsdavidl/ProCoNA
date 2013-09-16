@@ -2,6 +2,9 @@
 import(stats)
 import(BiocGenerics)
 importFrom(GOstats, hyperGTest)
+import(methods)
+
+exportClasses(proconaNet)
 
 export(
     proconaVersionFun,
@@ -26,19 +29,35 @@ export(
     plotNet,
     printNet,
     networkName,
+    "networkName<-",
     samples,
+    "samples<-",
     peptides,
+    "peptides<-",
     proconaVersion,
+    "proconaVersion<-",
     networkName,
+    "networkName<-",
     networkType,
+    "networkType<-",
     adj,
+    "adj<-",
     TOM,
+    "TOM<-",
     pepTree,
+    "pepTree<-",
     mergedMEs,
+    "mergedMEs<-",
     mergedColors,
+    "mergedColors<-",
     MEs,
+    "MEs<-",
     dynamicColors,
+    "dynamicColors<-",
     networkPower,
+    "networkPower<-",
     permtest,
-    colorOrder
+    "permtest<-",
+    colorOrder,
+    "colorOrder<-"
   )

@@ -25,10 +25,6 @@ buildProconaNetwork <- function
  performTOPermtest=TRUE,  ##<< Performs permutation testing on modules
  toPermTestPermutes=100   ##<< Number of permutations to do.
  ) {
-                                        #error checking
-                                        #args <- as.list(match.call(expand.dots = TRUE)[-1])
-                                        #prebuild_check(args,pepdat)
-    
     message("Constructing New ProCoNA Network Object")
 
     if (inherits(pepdat, "MSnSet")) {
@@ -36,10 +32,12 @@ buildProconaNetwork <- function
     }
 
     pnet = new("proconaNet")
-    proconaVersion(pnet) = proconaVersionFun()
-    networkName(pnet)=networkName
-    networkType(pnet)=networkType
-    samples(pnet)=rownames(pepdat)
+    proconaVersion(pnet) <- proconaVersionFun()
+    networkName(pnet) <- networkName
+    networkType(pnet) <- networkType
+    samples(pnet) <- rownames(pepdat)
+    peptides(pnet) <- colnames(pepdat)
+
     if (is.null(pow)) {
         message("Computing soft threshold power")
         if(pearson) {
@@ -59,7 +57,6 @@ buildProconaNetwork <- function
         networkPower(pnet)=pow
     }
     message("Using power: ", networkPower(pnet), "\n")
-    peptides(pnet)=colnames(pepdat)
     
     message("Computing adjacency")
     if (pearson) {

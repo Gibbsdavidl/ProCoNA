@@ -21,7 +21,7 @@
 \section{De Novo Peptide Networks}
 
 ProCoNA (protein co-expression network analysis) is an R package aimed
-at constructing and analyzing peptide co-expression networks.  These
+at constructing and analyzing peptide co-expression networks \cite{1}.  These
 networks are constructed using data derived from mass spectroscopy
 experiments (primarily accurate mass and time tag based LC-MS). This
 package streamlines the process of building and testing networks using
@@ -90,7 +90,7 @@ calling the network building function is shown below.
 <<Building the ProCoNA Network>>=
 peptideNetwork <- buildProconaNetwork(networkName="my network", 
                                       pepdat=peptideData, 
-                                      networkType="signed", 
+                                      networkType="signed",
                                       pow=beta$powerEstmate, 
                                       pearson=FALSE, 
                                       toPermTestPermutes=1000)
@@ -238,32 +238,37 @@ Be sure to see \texttt{RforProteomics} for more information about proteomics and
 
 \begin{thebibliography}{}
 
-\bibitem[Langfelder(2008)Langfelder]{1}
+\bibitem[Gibbs et al. (2013)]{1}
+ Gibbs D.L., Baratt A., Baric R.S., Kawaoka Y., Smith R.D., Orwoll E.S., Katze M.G., McWeeney S.K.
+\newblock Protein Co-expression Network Analysis (ProCoNA)
+\newblock Journal of Clinical Bioinformatics 2013, 3:11 doi:10.1186/2043-9113-3-11
+  
+\bibitem[Langfelder(2008)Langfelder]{2}
 Langfelder, P. (2008).
 \newblock WGCNA: an R package for weighted gene co-expression network analysis.
 \newblock In \emph{BMC Bioinformatics,}.
 
-\bibitem[Falcon and Gentleman(2007)]{2}
+\bibitem[Falcon and Gentleman(2007)]{3}
   Falcon, S. and Gentleman, R. (2007).
 \newblock Using GOstats to test gene lists for GO term association
 \newblock \emph{Bioinformatics} 23 (2): 257-258
 
-\bibitem[Langfelder et al.(2008)]{3}
+\bibitem[Langfelder et al.(2008)]{4}
   Langfelder P., Zhang, B., Horvath, S. (2008).
   \newblock Defining clusters from a hierarchical cluster tree: the Dynamic Tree Cut package for R
   \newblock \emph{Bioinformatics} 24 (5): 719-720
   
-\bibitem[Mason et al.(2009)]{4}
+\bibitem[Mason et al.(2009)]{5}
   Mason, M.J., Fan, G., Plath, K., Zhou, Q., and Horvath, S. (2009)
   \newblock  Signed weighted gene co-expression network analysis of transcriptional regulation in murine embryonic stem cells.
   \newblock \emph{BMC Genomics}. Jul 20;10:327
 
-\bibitem[Gatto and Lilley (2011)]{5}
+\bibitem[Gatto and Lilley (2011)]{6}
   Gatto L., Lilley K. (2011)
   \newblock MSnbase – an R/Bioconductor package for isobaric tagged mass spectrometry data visualisation, processing and quantitation
   \newblock \emph{Bioinformatics} Jan 15;28(2):288-9.
  
-\bibitem[Gatto and Christoforou (2013)]{6}
+\bibitem[Gatto and Christoforou (2013)]{7}
   Gatto L., Christoforou, A. (2013)
   \newblock Using R and Bioconductor for proteomics data analysis.
   \newblock \emph Biochim Biophys Acta. 2013 May 18. pii: S1570-9639(13)00186-6. doi: 10.1016/j.bbapap.2013.04.032.
