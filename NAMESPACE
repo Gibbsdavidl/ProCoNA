@@ -1,8 +1,8 @@
 
-import(stats)
+import(methods)
+#import(stats)
 import(BiocGenerics)
 importFrom(GOstats, hyperGTest)
-import(methods)
 
 exportClasses(proconaNet)
 

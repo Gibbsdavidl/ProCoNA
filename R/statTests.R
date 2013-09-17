@@ -40,7 +40,7 @@ setMethod("toPermTest",
                   x = 1:length(colors)            # indices to sample from
                   
                   message("Permuting module: ", color, "\n")
-                  message("   dim of TOM: ", dim(tomSubset), "\n")
+                  message("   dim of TOM: ", dim(tomSubset)[1], "  ", dim(tomSubset)[2], "\n")
                   
                                         # create null distribution
                   dist = vector("numeric", numPermutes+1)
